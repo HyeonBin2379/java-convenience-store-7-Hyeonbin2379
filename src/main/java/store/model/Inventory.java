@@ -1,5 +1,7 @@
 package store.model;
 
+import static store.util.constants.StringConstants.NO_PROMOTION;
+
 import java.util.List;
 
 public class Inventory {
@@ -36,7 +38,7 @@ public class Inventory {
 
     public String getPromotion() {
         if (promotion == Promotion.NONE){
-            return "";
+            return NO_PROMOTION;
         }
         return promotion.getName();
     }

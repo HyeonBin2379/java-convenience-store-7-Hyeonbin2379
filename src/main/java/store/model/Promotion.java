@@ -1,5 +1,7 @@
 package store.model;
 
+import static store.util.constants.StringConstants.DATE_FORMAT;
+
 import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -51,7 +53,7 @@ public enum Promotion {
 
     public boolean isAvailable() {
         LocalDate now = DateTimes.now().toLocalDate();
-        now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        now.format(DateTimeFormatter.ofPattern(DATE_FORMAT));
         return (!now.isBefore(startDate)) && (!now.isAfter(endDate));
     }
 }

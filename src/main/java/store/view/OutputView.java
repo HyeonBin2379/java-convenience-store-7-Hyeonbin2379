@@ -1,8 +1,10 @@
 package store.view;
 
+import static store.util.constants.StringConstants.OUT_OF_STOCK;
 import static store.util.message.OutputMessage.OUTPUT_FINAL_COST;
 import static store.util.message.OutputMessage.OUTPUT_GIVEAWAY_ITEM;
 import static store.util.message.OutputMessage.OUTPUT_GIVEAWAY_TITLE;
+import static store.util.message.OutputMessage.OUTPUT_ITEM_COUNT;
 import static store.util.message.OutputMessage.OUTPUT_ITEM_INFO;
 import static store.util.message.OutputMessage.OUTPUT_PURCHASED_ITEM;
 import static store.util.message.OutputMessage.OUTPUT_PURCHASE_RESULT_TITLE;
@@ -34,9 +36,9 @@ public class OutputView {
     }
     private String getNewValue(Integer productCount) {
         if (productCount == 0) {
-            return "재고 없음";
+            return OUT_OF_STOCK;
         }
-        return String.format("%,d개", productCount);
+        return String.format(OUTPUT_ITEM_COUNT, productCount);
     }
 
     public void displayReceipt(Purchases purchases) {

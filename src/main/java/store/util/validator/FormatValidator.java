@@ -1,5 +1,11 @@
 package store.util.validator;
 
+import static store.util.constants.StringConstants.CONSECUTIVE_DELIMITER;
+import static store.util.constants.StringConstants.NO;
+import static store.util.constants.StringConstants.PURCHASE_DELIMITER;
+import static store.util.constants.StringConstants.PURCHASE_INFO_DELIMITER;
+import static store.util.constants.StringConstants.PURCHASE_INFO_FORMAT;
+import static store.util.constants.StringConstants.YES;
 import static store.util.message.ExceptionMessage.INPUT_FORMAT_INCORRECT;
 import static store.util.message.ExceptionMessage.OTHER_INPUT_ERROR;
 
@@ -11,7 +17,7 @@ public class FormatValidator {
     public static List<String> validateInputString(String input) {
         validateBlank(input);
         validateDelimiter(input);
-        return Arrays.stream(input.split(",")).toList();
+        return Arrays.stream(input.split(PURCHASE_DELIMITER)).toList();
     }
 
     public static void validateBlank(String input) {
@@ -21,16 +27,18 @@ public class FormatValidator {
     }
 
     public static void validateDelimiter(String input) {
-        if (input.startsWith(",") || input.endsWith(",") || input.contains(",,")) {
+        if (input.startsWith(PURCHASE_DELIMITER)
+                || input.endsWith(PURCHASE_DELIMITER)
+                || input.contains(CONSECUTIVE_DELIMITER)) {
             throw new IllegalArgumentException(INPUT_FORMAT_INCORRECT.getMessage());
         }
     }
 
     public static List<String> validatePurchaseFormat(String purchaseInput) {
-        if (!purchaseInput.matches("^\\[([^0-9]+)-([1-9][0-9]*)]$")) {
+        if (!purchaseInput.matches(PURCHASE_INFO_FORMAT)) {
             throw new IllegalArgumentException(INPUT_FORMAT_INCORRECT.getMessage());
         }
-        return Arrays.stream(purchaseInput.split("[\\[\\]\\-]")).filter(s -> !s.isEmpty()).toList();
+        return Arrays.stream(purchaseInput.split(PURCHASE_INFO_DELIMITER)).filter(s -> !s.isEmpty()).toList();
     }
 
     public static int validatePositive(String input) {
@@ -51,9 +59,9 @@ public class FormatValidator {
 
     public static boolean validateOption(String option) {
         validateBlank(option);
-        if (option.equalsIgnoreCase("Y")) {
+        if (option.equalsIgnoreCase(YES)) {
             return true;
-        } else if (option.equalsIgnoreCase("N")) {
+        } else if (option.equalsIgnoreCase(NO)) {
             return false;
         }
         throw new IllegalArgumentException(INPUT_FORMAT_INCORRECT.getMessage());
