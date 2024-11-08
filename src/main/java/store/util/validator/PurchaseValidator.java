@@ -1,16 +1,16 @@
 package store.util.validator;
 
-import static store.config.AppConfig.inventoryDao;
 import static store.util.message.ExceptionMessage.PURCHASED_ITEM_NOT_EXIST;
 import static store.util.message.ExceptionMessage.PURCHASE_EXCEED_INVENTORY;
 
 import java.util.List;
+import store.config.AppConfig;
 import store.model.Inventory;
 
 public class PurchaseValidator {
 
     public static void validatePurchaseItem(String name, int purchaseCount) {
-        List<Inventory> found = inventoryDao.findBy(name);
+        List<Inventory> found = AppConfig.getInventoryDao().findByName(name);
         validateItemExist(found);
         validatePurchaseCount(found, purchaseCount);
     }
