@@ -35,26 +35,10 @@ public class FormatValidator {
     }
 
     public static List<String> validatePurchaseFormat(String purchaseInput) {
-        if (!purchaseInput.matches(PURCHASE_INFO_FORMAT)) {
+        if (purchaseInput.contains("--") || !purchaseInput.matches(PURCHASE_INFO_FORMAT)) {
             throw new IllegalArgumentException(INPUT_FORMAT_INCORRECT.getMessage());
         }
         return Arrays.stream(purchaseInput.split(PURCHASE_INFO_DELIMITER)).filter(s -> !s.isEmpty()).toList();
-    }
-
-    public static int validatePositive(String input) {
-        int quantity = validateInteger(input);
-        if (quantity <= 0) {
-            throw new IllegalArgumentException(INPUT_FORMAT_INCORRECT.getMessage());
-        }
-        return quantity;
-    }
-
-    private static int validateInteger(String input) {
-        try {
-            return Integer.parseInt(input);
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(INPUT_FORMAT_INCORRECT.getMessage());
-        }
     }
 
     public static boolean validateOption(String option) {
