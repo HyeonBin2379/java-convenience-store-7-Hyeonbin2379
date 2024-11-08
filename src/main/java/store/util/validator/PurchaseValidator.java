@@ -11,7 +11,7 @@ import store.model.Purchase;
 
 public class PurchaseValidator {
 
-    public static void validatePurchaseItem(String name, int purchaseCount) {
+    public static void validatePurchaseItem(String name, Integer purchaseCount) {
         List<Inventory> found = AppConfig.getInventoryDao().findByName(name);
         validateItemExist(found);
         validatePurchaseCount(found, purchaseCount);
@@ -23,7 +23,7 @@ public class PurchaseValidator {
         }
     }
 
-    public static void validatePurchaseCount(List<Inventory> found, int purchaseCount) {
+    public static void validatePurchaseCount(List<Inventory> found, Integer purchaseCount) {
         int quantitySum = found.stream()
                 .map(Inventory::getQuantity)
                 .reduce(0, Integer::sum);

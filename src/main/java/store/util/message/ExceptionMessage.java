@@ -1,5 +1,7 @@
 package store.util.message;
 
+import static store.util.constants.StringConstants.ERROR_MESSAGE;
+
 public enum ExceptionMessage {
 
     INPUT_FORMAT_INCORRECT("올바르지 않은 형식으로 입력했습니다. 다시 입력해 주세요."),
@@ -14,6 +16,6 @@ public enum ExceptionMessage {
     }
 
     public String getMessage() {
-        return String.format("[ERROR] %s", message);
+        return String.format("%s %s", ERROR_MESSAGE, message);
     }
 }
