@@ -1,29 +1,21 @@
 package store.model;
 
-import java.util.List;
-
 public class PurchaseResult {
 
-    private int totalCost;
-    private int promotionDiscount;
-    private int membershipDiscount;
+    private final int totalPurchaseCount;
+    private final int totalCost;
+    private final int promotionDiscount;
+    private final int membershipDiscount;
 
-    public PurchaseResult(List<Purchase> purchases) {
-        setTotalCost(purchases);
-        setPromotionDiscount(purchases);
+    public PurchaseResult(int totalPurchaseCount, int totalCost, int promotionDiscount, int membershipDiscount) {
+        this.totalPurchaseCount = totalPurchaseCount;
+        this.totalCost = totalCost;
+        this.promotionDiscount = promotionDiscount;
+        this.membershipDiscount = membershipDiscount;
     }
 
-    public void setTotalCost(List<Purchase> purchases) {
-        totalCost = purchases.stream().map(Purchase::getTotalCost).reduce(0, Integer::sum);
-    }
-
-    public void setPromotionDiscount(List<Purchase> purchases) {
-        promotionDiscount = purchases.stream().map(Purchase::getPromotionDiscount).reduce(0, Integer::sum);
-    }
-
-    public void setMembershipDiscount(List<Purchase> purchases) {
-        int totalBuyCost = purchases.stream().map(Purchase::getBuyCost).reduce(0, Integer::sum);
-        membershipDiscount = (int) Math.min(totalBuyCost*0.3, 8000);
+    public int getTotalCount() {
+        return totalPurchaseCount;
     }
 
     public int getTotalCost() {
@@ -39,6 +31,6 @@ public class PurchaseResult {
     }
 
     public int getFinalCost() {
-        return totalCost - promotionDiscount - membershipDiscount;
+        return getTotalCost() - getPromotionDiscount() - getMembershipDiscount();
     }
 }
