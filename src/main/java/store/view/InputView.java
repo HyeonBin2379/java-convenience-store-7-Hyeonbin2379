@@ -7,9 +7,10 @@ import static store.util.validator.FormatValidator.validateOption;
 import camp.nextstep.edu.missionutils.Console;
 import java.util.List;
 import store.model.Purchase;
+import store.model.Purchases;
 import store.util.validator.FormatValidator;
 
-public class InputView {
+public class InputView extends AbstractInputView {
 
     public List<Purchase> inputPurchasedItem() {
         System.out.println(SELECT_ITEM);
@@ -24,5 +25,26 @@ public class InputView {
         System.out.println(message);
         String input = Console.readLine();
         return validateOption(input);
+    }
+
+    public Purchases retryItemInput() {
+        while (true) {
+            try {
+                List<Purchase> purchases = retryInput(this::inputPurchasedItem);
+                return new Purchases(purchases);
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public boolean retryYesOrNo(String message) {
+        while (true) {
+            try {
+                return retryInput(() -> this.inputYesOrNo(message));
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 }

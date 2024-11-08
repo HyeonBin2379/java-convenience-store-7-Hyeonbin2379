@@ -1,11 +1,8 @@
 package store.view;
 
-import static store.util.constants.StringConstants.OUT_OF_STOCK;
 import static store.util.message.OutputMessage.OUTPUT_FINAL_COST;
 import static store.util.message.OutputMessage.OUTPUT_GIVEAWAY_ITEM;
 import static store.util.message.OutputMessage.OUTPUT_GIVEAWAY_TITLE;
-import static store.util.message.OutputMessage.OUTPUT_ITEM_COUNT;
-import static store.util.message.OutputMessage.OUTPUT_ITEM_INFO;
 import static store.util.message.OutputMessage.OUTPUT_PURCHASED_ITEM;
 import static store.util.message.OutputMessage.OUTPUT_PURCHASE_RESULT_TITLE;
 import static store.util.message.OutputMessage.OUTPUT_RECEIPT_TITLE;
@@ -14,60 +11,46 @@ import static store.util.message.OutputMessage.OUTPUT_TOTAL_MEMBERSHIP_DISCOUNT;
 import static store.util.message.OutputMessage.OUTPUT_TOTAL_PROMOTION_DISCOUNT;
 import static store.util.message.OutputMessage.WELCOME_MESSAGE;
 
-import java.util.Map;
+import java.util.List;
 import store.model.Inventory;
 import store.model.Purchase;
+import store.model.PurchaseResult;
 import store.model.Purchases;
 
 public class OutputView {
 
-    public void displayInventories(Map<Integer, Inventory> inventories) {
+    public void displayInventories(List<Inventory> inventories) {
         System.out.println(WELCOME_MESSAGE);
-        inventories.values().forEach(inventory -> System.out.print(makeString(inventory)));
-    }
-    private String makeString(Inventory inventory) {
-        return String.format(
-                OUTPUT_ITEM_INFO,
-                inventory.getName(),
-                inventory.getPrice(),
-                getNewValue(inventory.getQuantity()),
-                inventory.getPromotion()
-        );
-    }
-    private String getNewValue(Integer productCount) {
-        if (productCount == 0) {
-            return OUT_OF_STOCK;
-        }
-        return String.format(OUTPUT_ITEM_COUNT, productCount);
+        inventories.forEach(inventory -> System.out.print(inventory.toString()));
     }
 
     public void displayReceipt(Purchases purchases) {
         displayTotalCost(purchases);
         displayGiveaway(purchases);
-        displayTotalResult(purchases);
+        displayTotalResult(purchases.getResult());
     }
 
     public void displayTotalCost(Purchases purchases) {
         System.out.println(OUTPUT_RECEIPT_TITLE);
         for (Purchase purchase : purchases.getAll()) {
-            System.out.printf(OUTPUT_PURCHASED_ITEM, purchase.getName(), purchase.getPurchaseCount(), purchase.getTotalCost());
+            System.out.printf(OUTPUT_PURCHASED_ITEM, purchase.getName(), purchase.getTotalNeedCount(), purchase.getTotalCost());
         }
     }
 
     public void displayGiveaway(Purchases purchases) {
         System.out.println(OUTPUT_GIVEAWAY_TITLE);
         for (Purchase purchase : purchases.getAll()) {
-            if (purchase.getGiveawayCount() > 0) {
-                System.out.printf(OUTPUT_GIVEAWAY_ITEM, purchase.getName(), purchase.getGiveawayCount());
+            if (purchase.getGetCount() > 0) {
+                System.out.printf(OUTPUT_GIVEAWAY_ITEM, purchase.getName(), purchase.getGetCount());
             }
         }
     }
 
-    public void displayTotalResult(Purchases purchases) {
+    public void displayTotalResult(PurchaseResult result) {
         System.out.println(OUTPUT_PURCHASE_RESULT_TITLE);
-        System.out.printf(OUTPUT_TOTAL_COST, purchases.getTotalCount(), purchases.getTotalCost());
-        System.out.printf(OUTPUT_TOTAL_PROMOTION_DISCOUNT, purchases.getPromotionDiscount());
-        System.out.printf(OUTPUT_TOTAL_MEMBERSHIP_DISCOUNT, purchases.getMembershipDiscount());
-        System.out.printf(OUTPUT_FINAL_COST, purchases.getFinalCost());
+        System.out.printf(OUTPUT_TOTAL_COST, result.getTotalCount(), result.getTotalCost());
+        System.out.printf(OUTPUT_TOTAL_PROMOTION_DISCOUNT, result.getPromotionDiscount());
+        System.out.printf(OUTPUT_TOTAL_MEMBERSHIP_DISCOUNT, result.getMembershipDiscount());
+        System.out.printf(OUTPUT_FINAL_COST, result.getFinalCost());
     }
 }
