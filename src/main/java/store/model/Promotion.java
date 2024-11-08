@@ -32,16 +32,18 @@ public enum Promotion {
         return name;
     }
 
-    public int getBuyCount() {
-        return buyCount;
-    }
-
     public int getGiveawayCount() {
         return giveawayCount;
     }
 
     public int getPromotionCount() {
-        return buyCount+giveawayCount;
+        return buyCount + giveawayCount;
+    }
+
+    public boolean isInProgress() {
+        LocalDate now = DateTimes.now().toLocalDate();
+        now.format(DateTimeFormatter.ofPattern(DATE_FORMAT));
+        return (!now.isBefore(startDate)) && (!now.isAfter(endDate));
     }
 
     public static Promotion findPromotion(String name) {
@@ -49,11 +51,5 @@ public enum Promotion {
                 .filter(promotion -> promotion.getName().equals(name))
                 .findFirst()
                 .orElse(NONE);
-    }
-
-    public boolean isAvailable() {
-        LocalDate now = DateTimes.now().toLocalDate();
-        now.format(DateTimeFormatter.ofPattern(DATE_FORMAT));
-        return (!now.isBefore(startDate)) && (!now.isAfter(endDate));
     }
 }
