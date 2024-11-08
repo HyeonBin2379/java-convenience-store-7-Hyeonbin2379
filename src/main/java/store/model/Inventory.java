@@ -2,8 +2,8 @@ package store.model;
 
 import static store.util.constants.StringConstants.NO_PROMOTION;
 import static store.util.constants.StringConstants.OUT_OF_STOCK;
-import static store.util.message.OutputMessage.OUTPUT_ITEM_COUNT;
-import static store.util.message.OutputMessage.OUTPUT_ITEM_INFO;
+import static store.util.message.OutputMessage.ITEM_COUNT;
+import static store.util.message.OutputMessage.ITEM_INFO;
 
 import java.util.List;
 
@@ -46,14 +46,14 @@ public class Inventory {
 
     @Override
     public String toString() {
-        return String.format(OUTPUT_ITEM_INFO, name, price, getNewValue(quantity), getPromoName());
+        return String.format(ITEM_INFO, name, price, getNewValue(quantity), getPromoName());
     }
 
     private String getNewValue(Integer productCount) {
         if (productCount == 0) {
             return OUT_OF_STOCK;
         }
-        return String.format(OUTPUT_ITEM_COUNT, productCount);
+        return String.format(ITEM_COUNT, productCount);
     }
 
     private String getPromoName() {

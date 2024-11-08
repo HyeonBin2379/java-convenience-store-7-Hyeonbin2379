@@ -1,11 +1,19 @@
 package store.view;
 
+import static store.util.constants.StringConstants.COST;
+import static store.util.constants.StringConstants.FINAL_COST;
+import static store.util.constants.StringConstants.ITEM_NAME;
+import static store.util.constants.StringConstants.MEMBERSHIP_DISCOUNT;
+import static store.util.constants.StringConstants.PROMOTION_DISCOUNT;
+import static store.util.constants.StringConstants.QUANTITY;
+import static store.util.constants.StringConstants.TOTAL_COST;
+import static store.util.message.OutputMessage.ITEM_COUNT;
 import static store.util.message.OutputMessage.OUTPUT_FINAL_COST;
-import static store.util.message.OutputMessage.OUTPUT_GIVEAWAY_ITEM;
-import static store.util.message.OutputMessage.OUTPUT_GIVEAWAY_TITLE;
-import static store.util.message.OutputMessage.OUTPUT_PURCHASED_ITEM;
-import static store.util.message.OutputMessage.OUTPUT_PURCHASE_RESULT_TITLE;
-import static store.util.message.OutputMessage.OUTPUT_RECEIPT_TITLE;
+import static store.util.message.OutputMessage.GIVEAWAY_ITEM;
+import static store.util.message.OutputMessage.GIVEAWAY_TITLE;
+import static store.util.message.OutputMessage.PURCHASED_ITEM;
+import static store.util.message.OutputMessage.PURCHASE_RESULT_TITLE;
+import static store.util.message.OutputMessage.RECEIPT_TITLE;
 import static store.util.message.OutputMessage.OUTPUT_TOTAL_COST;
 import static store.util.message.OutputMessage.OUTPUT_TOTAL_MEMBERSHIP_DISCOUNT;
 import static store.util.message.OutputMessage.OUTPUT_TOTAL_PROMOTION_DISCOUNT;
@@ -31,26 +39,26 @@ public class OutputView {
     }
 
     public void displayTotalCost(Purchases purchases) {
-        System.out.println(OUTPUT_RECEIPT_TITLE);
+        System.out.printf(RECEIPT_TITLE, ITEM_NAME, QUANTITY, COST);
         for (Purchase purchase : purchases.getAll()) {
-            System.out.printf(OUTPUT_PURCHASED_ITEM, purchase.getName(), purchase.getTotalNeedCount(), purchase.getTotalCost());
+            System.out.printf(PURCHASED_ITEM, purchase.getName(), purchase.getTotalNeedCount(), purchase.getTotalCost());
         }
     }
 
     public void displayGiveaway(Purchases purchases) {
-        System.out.println(OUTPUT_GIVEAWAY_TITLE);
+        System.out.println(GIVEAWAY_TITLE);
         for (Purchase purchase : purchases.getAll()) {
             if (purchase.getGetCount() > 0) {
-                System.out.printf(OUTPUT_GIVEAWAY_ITEM, purchase.getName(), purchase.getGetCount());
+                System.out.printf(GIVEAWAY_ITEM, purchase.getName(), purchase.getGetCount());
             }
         }
     }
 
     public void displayTotalResult(PurchaseResult result) {
-        System.out.println(OUTPUT_PURCHASE_RESULT_TITLE);
-        System.out.printf(OUTPUT_TOTAL_COST, result.getTotalCount(), result.getTotalCost());
-        System.out.printf(OUTPUT_TOTAL_PROMOTION_DISCOUNT, result.getPromotionDiscount());
-        System.out.printf(OUTPUT_TOTAL_MEMBERSHIP_DISCOUNT, result.getMembershipDiscount());
-        System.out.printf(OUTPUT_FINAL_COST, result.getFinalCost());
+        System.out.println(PURCHASE_RESULT_TITLE);
+        System.out.printf(OUTPUT_TOTAL_COST, TOTAL_COST, result.getTotalCount(), result.getTotalCost());
+        System.out.printf(OUTPUT_TOTAL_PROMOTION_DISCOUNT, PROMOTION_DISCOUNT, result.getPromotionDiscount());
+        System.out.printf(OUTPUT_TOTAL_MEMBERSHIP_DISCOUNT, MEMBERSHIP_DISCOUNT, result.getMembershipDiscount());
+        System.out.printf(OUTPUT_FINAL_COST, FINAL_COST, result.getFinalCost());
     }
 }
