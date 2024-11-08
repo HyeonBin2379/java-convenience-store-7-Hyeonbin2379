@@ -1,42 +1,67 @@
 package store.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Purchases {
 
     private final List<Purchase> purchases;
-    private final PurchaseResult result;
 
-    public Purchases(List<Purchase> input) {
-        this.purchases = input;
-        this.result = new PurchaseResult(input);
+    private int totalPurchaseCount;
+    private int totalCost;
+    private int totalBuyCost;
+    private int promotionDiscount;
+    private int membershipDiscount;
+
+    public Purchases(List<Purchase> purchases) {
+        this.purchases = new ArrayList<>(purchases);
+    }
+
+    public Purchase get(int index) {
+        return purchases.get(index);
     }
 
     public List<Purchase> getAll() {
         return purchases;
     }
 
-    public int getTotalCount() {
-        return purchases.stream().map(Purchase::getPurchaseCount).reduce(0, Integer::sum);
+    public void updatePurchase(int index, Purchase purchase) {
+        purchases.set(index, purchase);
     }
 
-    public int getTotalCost() {
-        return result.getTotalCost();
+    public int getSize() {
+        return purchases.size();
     }
 
-    public int getPromotionDiscount() {
-        return result.getPromotionDiscount();
+    public void countTotalPurchase() {
+        totalPurchaseCount = purchases.stream()
+                .map(Purchase::getTotalNeedCount)
+                .reduce(0, Integer::sum);
     }
 
-    public void setMembershipDiscount() {
-        result.setMembershipDiscount(purchases);
+    public void calculateTotalCost() {
+        totalCost = purchases.stream()
+                .map(Purchase::getTotalCost)
+                .reduce(0, Integer::sum);
     }
 
-    public int getMembershipDiscount() {
-        return result.getMembershipDiscount();
+    public void calculatePromotionDiscount() {
+        promotionDiscount = purchases.stream()
+                .map(Purchase::getPromotionDiscount)
+                .reduce(0, Integer::sum);
     }
 
-    public int getFinalCost() {
-        return result.getFinalCost();
+    public void calculateTotalBuyCost() {
+        totalBuyCost = purchases.stream()
+                .map(Purchase::getBuyCost)
+                .reduce(0, Integer::sum);
+    }
+
+    public void calculateMembershipDiscount() {
+        membershipDiscount = (int) Math.min(totalBuyCost*0.3, 8000);
+    }
+
+    public PurchaseResult getResult() {
+        return new PurchaseResult(totalPurchaseCount, totalCost, promotionDiscount, membershipDiscount);
     }
 }
