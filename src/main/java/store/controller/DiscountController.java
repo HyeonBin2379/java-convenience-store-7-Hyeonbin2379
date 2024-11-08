@@ -33,14 +33,14 @@ public class DiscountController {
         int needCount = purchase.getTotalNeedCount();
         int promotionQuantity = stock.getPromotionQuantity();
 
-        if (needCount <= promotionQuantity) {
-            return discountByEnoughPromotion(purchase, promotion, stock);
+        if (needCount < promotionQuantity) {
+            return discountByMorePromotion(purchase, promotion, stock);
         }
-        return discountByNotEnoughPromotion(purchase, promotion, stock);
+        return discountByEqualOrLessPromotion(purchase, promotion, stock);
     }
 
 
-    public Purchase discountByEnoughPromotion(Purchase purchase, Promotion promotion, ItemStock stock) {
+    public Purchase discountByMorePromotion(Purchase purchase, Promotion promotion, ItemStock stock) {
         int needCount = purchase.getTotalNeedCount();
 
         if (needCount < promotion.getPromotionCount()) {
@@ -62,7 +62,7 @@ public class DiscountController {
     }
 
 
-    public Purchase discountByNotEnoughPromotion(Purchase purchase, Promotion promotion, ItemStock stock) {
+    public Purchase discountByEqualOrLessPromotion(Purchase purchase, Promotion promotion, ItemStock stock) {
         int promotionQuantity = stock.getPromotionQuantity();
         int promotionCount = promotion.getPromotionCount();
         int remainder = purchase.getTotalNeedCount() - promotionCount*(promotionQuantity/promotionCount);
