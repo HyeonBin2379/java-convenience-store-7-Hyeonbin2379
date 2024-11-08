@@ -7,7 +7,6 @@ import static store.util.constants.StringConstants.MEMBERSHIP_DISCOUNT;
 import static store.util.constants.StringConstants.PROMOTION_DISCOUNT;
 import static store.util.constants.StringConstants.QUANTITY;
 import static store.util.constants.StringConstants.TOTAL_COST;
-import static store.util.message.OutputMessage.ITEM_COUNT;
 import static store.util.message.OutputMessage.OUTPUT_FINAL_COST;
 import static store.util.message.OutputMessage.GIVEAWAY_ITEM;
 import static store.util.message.OutputMessage.GIVEAWAY_TITLE;
@@ -27,14 +26,14 @@ import store.model.Purchases;
 
 public class OutputView {
 
-    public void displayInventories(List<Inventory> inventories) {
+    public void displayInventoryInfo(List<Inventory> inventories) {
         System.out.println(WELCOME_MESSAGE);
         inventories.forEach(inventory -> System.out.print(inventory.toString()));
     }
 
     public void displayReceipt(Purchases purchases) {
         displayTotalCost(purchases);
-        displayGiveaway(purchases);
+        displayFreeItemInfo(purchases);
         displayTotalResult(purchases.getResult());
     }
 
@@ -45,11 +44,11 @@ public class OutputView {
         }
     }
 
-    public void displayGiveaway(Purchases purchases) {
+    public void displayFreeItemInfo(Purchases purchases) {
         System.out.println(GIVEAWAY_TITLE);
         for (Purchase purchase : purchases.getAll()) {
-            if (purchase.getGetCount() > 0) {
-                System.out.printf(GIVEAWAY_ITEM, purchase.getName(), purchase.getGetCount());
+            if (purchase.getFreeItemCount() > 0) {
+                System.out.printf(GIVEAWAY_ITEM, purchase.getName(), purchase.getFreeItemCount());
             }
         }
     }
