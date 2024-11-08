@@ -53,7 +53,7 @@ public class Purchases {
 
     public void calculateTotalBuyCost() {
         totalBuyCost = purchases.stream()
-                .map(Purchase::getBuyCost)
+                .map(Purchase::getNonPromotionBuyCost)
                 .reduce(0, Integer::sum);
     }
 

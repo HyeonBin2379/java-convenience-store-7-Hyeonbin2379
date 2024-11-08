@@ -8,8 +8,8 @@ public class Purchase {
 
     private final Product product;
     private int totalNeedCount;
-    private int getCount;
-    private int buyCount;
+    private int freeItemCount;
+    private int buyCountNotPromotionItem;
 
     public Purchase(List<String> params) {
         validatePurchaseItem(params.getFirst(), Integer.parseInt(params.getLast()));
@@ -34,22 +34,22 @@ public class Purchase {
     }
 
     public int getPromotionDiscount() {
-        return product.getPrice(getCount);
+        return product.getPrice(freeItemCount);
     }
 
-    public int getGetCount() {
-        return getCount;
+    public int getFreeItemCount() {
+        return freeItemCount;
     }
 
-    public int getBuyCost() {
-        return product.getPrice(buyCount);
+    public int getNonPromotionBuyCost() {
+        return product.getPrice(buyCountNotPromotionItem);
     }
 
-    public void addBuyCount(int count) {
-        buyCount += count;
+    public void addNonPromotionBuyCount(int count) {
+        buyCountNotPromotionItem += count;
     }
 
-    public void addGetCount(int count) {
-        getCount += count;
+    public void addFreeItemCount(int count) {
+        freeItemCount += count;
     }
 }

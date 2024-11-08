@@ -17,11 +17,7 @@ public final class PurchaseConfig {
 
     public static PurchaseController getPurchaseController() {
         if (purchaseController == null) {
-            purchaseController = new PurchaseController(
-                    AppConfig.getInputView(),
-                    getPurchaseService(),
-                    AppConfig.getOutputView()
-            );
+            purchaseController = new PurchaseController(getPurchaseService());
         }
         return purchaseController;
     }
