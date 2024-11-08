@@ -1,5 +1,7 @@
 package store.model;
 
+import static store.util.validator.PurchaseValidator.validateDuplicatedItem;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +16,7 @@ public class Purchases {
     private int membershipDiscount;
 
     public Purchases(List<Purchase> purchases) {
+        validateDuplicatedItem(purchases);
         this.purchases = new ArrayList<>(purchases);
     }
 

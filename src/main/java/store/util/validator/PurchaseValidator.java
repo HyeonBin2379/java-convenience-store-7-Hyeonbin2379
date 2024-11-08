@@ -1,11 +1,13 @@
 package store.util.validator;
 
+import static store.util.message.ExceptionMessage.OTHER_INPUT_ERROR;
 import static store.util.message.ExceptionMessage.PURCHASED_ITEM_NOT_EXIST;
 import static store.util.message.ExceptionMessage.PURCHASE_EXCEED_INVENTORY;
 
 import java.util.List;
 import store.config.AppConfig;
 import store.model.Inventory;
+import store.model.Purchase;
 
 public class PurchaseValidator {
 
@@ -27,6 +29,16 @@ public class PurchaseValidator {
                 .reduce(0, Integer::sum);
         if (quantitySum < purchaseCount) {
             throw new IllegalArgumentException(PURCHASE_EXCEED_INVENTORY.getMessage());
+        }
+    }
+
+    public static void validateDuplicatedItem(List<Purchase> purchases) {
+        int distinctCount = (int) purchases.stream()
+                .map(Purchase::getName)
+                .distinct()
+                .count();
+        if (distinctCount != purchases.size()) {
+            throw new IllegalArgumentException(OTHER_INPUT_ERROR.getMessage());
         }
     }
 }
