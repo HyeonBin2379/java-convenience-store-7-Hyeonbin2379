@@ -2,7 +2,7 @@ package store.util.validator;
 
 import static store.util.constants.StringConstants.CONSECUTIVE_DELIMITER;
 import static store.util.constants.StringConstants.NO;
-import static store.util.constants.StringConstants.PURCHASE_DELIMITER;
+import static store.util.constants.StringConstants.DELIMITER;
 import static store.util.constants.StringConstants.PURCHASE_INFO_DELIMITER;
 import static store.util.constants.StringConstants.PURCHASE_INFO_FORMAT;
 import static store.util.constants.StringConstants.YES;
@@ -17,7 +17,7 @@ public class FormatValidator {
     public static List<String> validateInputString(String input) {
         validateBlank(input);
         validateDelimiter(input);
-        return Arrays.stream(input.split(PURCHASE_DELIMITER)).toList();
+        return Arrays.stream(input.split(DELIMITER)).toList();
     }
 
     public static void validateBlank(String input) {
@@ -27,8 +27,8 @@ public class FormatValidator {
     }
 
     public static void validateDelimiter(String input) {
-        if (input.startsWith(PURCHASE_DELIMITER)
-                || input.endsWith(PURCHASE_DELIMITER)
+        if (input.startsWith(DELIMITER)
+                || input.endsWith(DELIMITER)
                 || input.contains(CONSECUTIVE_DELIMITER)) {
             throw new IllegalArgumentException(INPUT_FORMAT_INCORRECT.getMessage());
         }

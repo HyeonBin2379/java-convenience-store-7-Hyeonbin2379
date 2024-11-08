@@ -3,7 +3,7 @@ package store.config;
 import store.controller.DiscountController;
 import store.service.PromotionDiscountService;
 
-public class DiscountConfig {
+public final class DiscountConfig {
 
     private static PromotionDiscountService promotionDiscountService = getPromotionDiscountService();
     private static DiscountController discountController = getDiscountController();
