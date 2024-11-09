@@ -80,14 +80,14 @@ public class DiscountController {
         int promotionCount = promotion.getBundleCount();
         int extraCount = purchase.getNeedCount() - promotionCount*(promotionQuantity/promotionCount);
 
-        if (buyOnlyInPromotion(purchase, extraCount)) {
+        if (allowsBuyingExtra(purchase, extraCount)) {
             purchaseService.reduceNormalAndPromotion(purchase, promotion, stock);
             return discountService.discountOnlyInPromotion(purchase, promotion.getBundleCount(), promotionQuantity);
         }
         purchaseService.reduceByManyBundles(purchase, promotion, promotionQuantity);
         return discountService.discountOnlyInManyBundles(purchase, promotion.getBundleCount(), promotionQuantity);
     }
-    private boolean buyOnlyInPromotion(Purchase purchase, int extraCount) {
+    private boolean allowsBuyingExtra(Purchase purchase, int extraCount) {
         return inputView.retryYesOrNo(makeMessage(purchase, extraCount));
     }
     private String makeMessage(Purchase purchase, int extraCount) {
