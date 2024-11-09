@@ -42,7 +42,7 @@ public class OutputView {
         for (Purchase purchase : purchases) {
             System.out.printf(PURCHASED_ITEM,
                     purchase.getName(),
-                    purchase.getNeedCount(),
+                    purchase.getTotalNeedCount(),
                     purchase.calculateCostBeforeDiscount());
         }
     }
@@ -50,8 +50,8 @@ public class OutputView {
     public void displayFreeItemInfo(List<Purchase> purchases) {
         System.out.println(GIVEAWAY_TITLE);
         for (Purchase purchase : purchases) {
-            if (purchase.getFreeCount() > 0) {
-                System.out.printf(GIVEAWAY_ITEM, purchase.getName(), purchase.getFreeCount());
+            if (purchase.getFreeItemCount() > 0) {
+                System.out.printf(GIVEAWAY_ITEM, purchase.getName(), purchase.getFreeItemCount());
             }
         }
     }
