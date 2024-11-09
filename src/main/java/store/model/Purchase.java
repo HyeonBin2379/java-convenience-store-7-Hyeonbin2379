@@ -7,8 +7,9 @@ import java.util.List;
 public class Purchase {
 
     private final Product product;
-    private int freeItemCount;
+
     private int totalNeedCount;
+    private int freeCount;
     private int normalCount;
 
     public Purchase(List<String> params) {
@@ -17,29 +18,12 @@ public class Purchase {
         this.totalNeedCount = Integer.parseInt(params.getLast());
     }
 
-    public String getName() {
-        return product.getName();
-    }
-
-    public int getFreeItemCount() {
-        return freeItemCount;
-    }
-
-    public int getNeedCount() {
-        return totalNeedCount;
-    }
-
-    public void setNeedCount(int newTotalCount) {
-        totalNeedCount = newTotalCount;
-    }
-
-
     public int calculateCostBeforeDiscount() {
         return product.calculateCost(totalNeedCount);
     }
 
     public int calculatePromotionDiscount() {
-        return product.calculateCost(freeItemCount);
+        return product.calculateCost(freeCount);
     }
 
     public int calculateNormalBuyCost() {
@@ -51,6 +35,22 @@ public class Purchase {
     }
 
     public void addFreeItemCount(int count) {
-        freeItemCount += count;
+        freeCount += count;
+    }
+
+    public String getName() {
+        return product.getName();
+    }
+
+    public int getFreeCount() {
+        return freeCount;
+    }
+
+    public int getNeedCount() {
+        return totalNeedCount;
+    }
+
+    public void setNeedCount(int newTotalCount) {
+        totalNeedCount = newTotalCount;
     }
 }
