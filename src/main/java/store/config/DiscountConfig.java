@@ -1,11 +1,11 @@
 package store.config;
 
 import store.controller.DiscountController;
-import store.service.PromotionDiscountService;
+import store.service.PromotionService;
 
 public final class DiscountConfig {
 
-    private static PromotionDiscountService promotionDiscountService = getPromotionDiscountService();
+    private static PromotionService promotionDiscountService = getPromotionDiscountService();
     private static DiscountController discountController = getDiscountController();
 
     private DiscountConfig() {
@@ -18,9 +18,9 @@ public final class DiscountConfig {
         return discountController;
     }
 
-    public static PromotionDiscountService getPromotionDiscountService() {
+    public static PromotionService getPromotionDiscountService() {
         if (promotionDiscountService == null) {
-            promotionDiscountService = new PromotionDiscountService(AppConfig.getInventoryDao());
+            promotionDiscountService = new PromotionService();
         }
         return promotionDiscountService;
     }
