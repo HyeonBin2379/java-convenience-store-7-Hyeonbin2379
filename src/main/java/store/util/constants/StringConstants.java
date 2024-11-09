@@ -7,6 +7,7 @@ public final class StringConstants {
 
     public static final String YES = "Y";
     public static final String NO = "N";
+    public static final String ERROR_MESSAGE = "[ERROR]";
 
     public static final String PURCHASE_INFO_FORMAT = "^\\[([^0-9]+)-([1-9][0-9]*)\\]$";
     public static final String PURCHASE_INFO_DELIMITER = "[\\[\\]\\-]";
