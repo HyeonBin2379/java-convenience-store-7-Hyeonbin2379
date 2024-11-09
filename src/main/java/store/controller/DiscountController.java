@@ -5,77 +5,92 @@ import static store.util.message.InputMessage.PROMOTION_NOT_AVAILABLE;
 
 import camp.nextstep.edu.missionutils.DateTimes;
 import store.config.AppConfig;
+import store.config.PurchaseConfig;
 import store.model.ItemStock;
 import store.model.Promotion;
 import store.model.Purchase;
-import store.service.PromotionDiscountService;
+import store.service.DiscountService;
+import store.service.PurchaseService;
 import store.view.InputView;
 
 public class DiscountController {
 
-    private final InputView inputView = AppConfig.getInputView();
-    private final PromotionDiscountService promotionDiscountService;
+    private final InputView inputView;
 
-    public DiscountController(PromotionDiscountService promotionDiscountService) {
-        this.promotionDiscountService = promotionDiscountService;
+    private final PurchaseService purchaseService;
+    private final DiscountService discountService;
+
+    public DiscountController(DiscountService discountService) {
+        this.inputView = AppConfig.getInputView();
+        this.purchaseService = PurchaseConfig.getPurchaseService();
+        this.discountService = discountService;
     }
 
-    public Purchase discountByPromotion(Purchase purchase, ItemStock stock) {
+    public Purchase discountByPromotionOrNot(Purchase purchase, ItemStock stock) {
         Promotion promotion = stock.getPromotion();
 
         if (!Promotion.isAvailable(promotion, DateTimes.now())) {
-            return promotionDiscountService.updateNormalQuantityNoPromotion(purchase);
+            purchaseService.reduceOnlyNormalQuantity(purchase);
+            return discountService.discountByNoPromotion(purchase);
         }
         return discountByAvailablePromotion(purchase, stock);
     }
 
-
     public Purchase discountByAvailablePromotion(Purchase purchase, ItemStock stock) {
         Promotion promotion = stock.getPromotion();
-        int needCount = purchase.getTotalNeedCount();
+        int needCount = purchase.getNeedCount();
         int promotionQuantity = stock.getPromotionQuantity();
 
         if (needCount < promotionQuantity) {
-            return discountByMorePromotion(purchase, promotion, stock);
+            return needLessThanBundleOrNot(purchase, promotion, stock);
         }
-        return discountByEqualOrLessPromotion(purchase, promotion, stock);
+        return needNoLessThanPromotion(purchase, promotion, stock);
     }
 
 
-    public Purchase discountByMorePromotion(Purchase purchase, Promotion promotion, ItemStock stock) {
-        int needCount = purchase.getTotalNeedCount();
-
-        if (needCount < promotion.getPromotionCount()) {
-            return discountByLessThanPromotion(purchase, promotion, stock);
+    public Purchase needLessThanOneBundle(Purchase purchase, Promotion promotion, ItemStock stock) {
+        if (allowsPromotion(purchase, promotion)) {
+            purchaseService.reduceByOneBundle(purchase, promotion, stock.getPromotionQuantity());
+            return discountService.discountByOneBundle(purchase, promotion.getBundleCount(), promotion.getFreeCount());
         }
-        return promotionDiscountService.updateByPromotionDiscount(purchase, promotion, stock);
+        purchaseService.reduceByNeedCount(purchase, promotion, stock.getPromotionQuantity());
+        return purchase;
+    }
+    private boolean allowsPromotion(Purchase purchase, Promotion promotion) {
+        return inputView.retryYesOrNo(makeMessage(purchase, promotion));
+    }
+    private String makeMessage(Purchase purchase, Promotion promotion) {
+        return String.format(PROMOTION_AVAILABLE.toString(), purchase.getName(), promotion.getFreeCount());
     }
 
 
-    public Purchase discountByLessThanPromotion(Purchase purchase, Promotion promotion, ItemStock stock) {
-        if (inputView.retryYesOrNo(makePromotionAvailableMessage(purchase, promotion))) {
-            return promotionDiscountService.updateByLessThanPromotionCount(purchase, promotion, stock);
+    public Purchase needLessThanBundleOrNot(Purchase purchase, Promotion promotion, ItemStock stock) {
+        int needCount = purchase.getNeedCount();
+
+        if (needCount < promotion.getBundleCount()) {
+            return needLessThanOneBundle(purchase, promotion, stock);
         }
-        return promotionDiscountService.updateByOriginalNeedCount(purchase, promotion, stock);
-    }
-
-    private String makePromotionAvailableMessage(Purchase purchase, Promotion promotion) {
-        return String.format(PROMOTION_AVAILABLE.toString(), purchase.getName(), promotion.getFreeItemCount());
+        purchaseService.reduceByNeedCount(purchase, promotion, stock.getPromotionQuantity());
+        return discountService.discountByPromotion(purchase, promotion.getBundleCount());
     }
 
 
-    public Purchase discountByEqualOrLessPromotion(Purchase purchase, Promotion promotion, ItemStock stock) {
+    public Purchase needNoLessThanPromotion(Purchase purchase, Promotion promotion, ItemStock stock) {
         int promotionQuantity = stock.getPromotionQuantity();
-        int promotionCount = promotion.getPromotionCount();
-        int remainder = purchase.getTotalNeedCount() - promotionCount*(promotionQuantity/promotionCount);
+        int promotionCount = promotion.getBundleCount();
+        int extraCount = purchase.getNeedCount() - promotionCount*(promotionQuantity/promotionCount);
 
-        if (inputView.retryYesOrNo(makePromotionNotAvailableMessage(purchase, remainder))) {
-            return promotionDiscountService.updateByMoreThanPromotionQuantity(purchase, promotion, stock);
+        if (buyOnlyInPromotion(purchase, extraCount)) {
+            purchaseService.reduceNormalAndPromotion(purchase, promotion, stock);
+            return discountService.discountOnlyInPromotion(purchase, promotion.getBundleCount(), promotionQuantity);
         }
-        return promotionDiscountService.updateOnlyPromotionQuantity(purchase, promotion,stock);
+        purchaseService.reduceByManyBundles(purchase, promotion, promotionQuantity);
+        return discountService.discountOnlyInManyBundles(purchase, promotion.getBundleCount(), promotionQuantity);
     }
-
-    private String makePromotionNotAvailableMessage(Purchase purchase, int remainder) {
-        return String.format(PROMOTION_NOT_AVAILABLE.toString(), purchase.getName(), remainder);
+    private boolean buyOnlyInPromotion(Purchase purchase, int extraCount) {
+        return inputView.retryYesOrNo(makeMessage(purchase, extraCount));
+    }
+    private String makeMessage(Purchase purchase, int extraCount) {
+        return String.format(PROMOTION_NOT_AVAILABLE.toString(), purchase.getName(), extraCount);
     }
 }

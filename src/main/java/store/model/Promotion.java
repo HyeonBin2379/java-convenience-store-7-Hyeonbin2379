@@ -16,15 +16,15 @@ public enum Promotion {
     NONE("null", 1, 0, "1970-01-01", "9999-12-31");
 
     private final String name;
-    private final int buyCount;
-    private final int freeItemCount;
+    private final int bundleCount;
+    private final int freeCount;
     private final LocalDate startDate;
     private final LocalDate endDate;
 
-    Promotion(String name, int buyCount, int freeItemCount, String startDate, String endDate) {
+    Promotion(String name, int buyCount, int freeCount, String startDate, String endDate) {
         this.name = name;
-        this.buyCount = buyCount;
-        this.freeItemCount = freeItemCount;
+        this.bundleCount = buyCount + freeCount;
+        this.freeCount = freeCount;
         this.startDate = LocalDate.parse(startDate);
         this.endDate = LocalDate.parse(endDate);
     }
@@ -33,12 +33,12 @@ public enum Promotion {
         return name;
     }
 
-    public int getFreeItemCount() {
-        return freeItemCount;
+    public int getFreeCount() {
+        return freeCount;
     }
 
-    public int getPromotionCount() {
-        return buyCount + freeItemCount;
+    public int getBundleCount() {
+        return bundleCount;
     }
 
     public static boolean isAvailable(Promotion promotion, LocalDateTime now) {

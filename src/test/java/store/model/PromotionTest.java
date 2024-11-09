@@ -38,7 +38,7 @@ class PromotionTest {
         int expectedFreeItemCount = 0;
 
         assertEquals(Promotion.NONE, found);
-        assertEquals(expectedFreeItemCount, found.getFreeItemCount());
+        assertEquals(expectedFreeItemCount, found.getFreeCount());
     }
 
     @ParameterizedTest
@@ -47,8 +47,8 @@ class PromotionTest {
     void testIfPromotionNameNotNull(String name, int expectedBuyCount, int expectedFreeItemCount) {
         Promotion found = Promotion.findPromotion(name);
 
-        assertEquals(expectedBuyCount, found.getPromotionCount() - found.getFreeItemCount());
-        assertEquals(expectedFreeItemCount, found.getFreeItemCount());
+        assertEquals(expectedBuyCount, found.getBundleCount() - found.getFreeCount());
+        assertEquals(expectedFreeItemCount, found.getFreeCount());
     }
 
     private static Stream<Arguments> provideNameAndExpectedCounts() {
