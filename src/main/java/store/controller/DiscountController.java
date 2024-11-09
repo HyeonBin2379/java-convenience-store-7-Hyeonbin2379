@@ -51,7 +51,7 @@ public class DiscountController {
     public Purchase needLessThanOneBundle(Purchase purchase, Promotion promotion, ItemStock stock) {
         if (allowsPromotion(purchase, promotion)) {
             purchaseService.reduceByOneBundle(purchase, promotion, stock.getPromotionQuantity());
-            return discountService.discountByOneBundle(purchase, promotion.getBundleCount(), promotion.getFreeCount());
+            return discountService.discountByOneBundle(purchase, promotion);
         }
         purchaseService.reduceByNeedCount(purchase, promotion, stock.getPromotionQuantity());
         return purchase;
@@ -71,7 +71,7 @@ public class DiscountController {
             return needLessThanOneBundle(purchase, promotion, stock);
         }
         purchaseService.reduceByNeedCount(purchase, promotion, stock.getPromotionQuantity());
-        return discountService.discountByPromotion(purchase, promotion.getBundleCount());
+        return discountService.discountByPromotion(purchase, promotion);
     }
 
 
@@ -82,10 +82,10 @@ public class DiscountController {
 
         if (allowsBuyingExtra(purchase, extraCount)) {
             purchaseService.reduceNormalAndPromotion(purchase, promotion, stock);
-            return discountService.discountOnlyInPromotion(purchase, promotion.getBundleCount(), promotionQuantity);
+            return discountService.discountOnlyInPromotion(purchase, promotion, promotionQuantity);
         }
         purchaseService.reduceByManyBundles(purchase, promotion, promotionQuantity);
-        return discountService.discountOnlyInManyBundles(purchase, promotion.getBundleCount(), promotionQuantity);
+        return discountService.discountOnlyInManyBundles(purchase, promotion, promotionQuantity);
     }
     private boolean allowsBuyingExtra(Purchase purchase, int extraCount) {
         return inputView.retryYesOrNo(makeMessage(purchase, extraCount));
