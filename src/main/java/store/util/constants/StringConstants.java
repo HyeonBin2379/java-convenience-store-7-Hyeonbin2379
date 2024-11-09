@@ -2,8 +2,9 @@ package store.util.constants;
 
 public final class StringConstants {
 
-    public static final String DELIMITER = ",";
-    public static final String CONSECUTIVE_DELIMITER = ",,";
+    public static final String PURCHASE_UNIT_DELIMITER = ",";
+    public static final String CONSECUTIVE_UNIT_DELIMITER = ",,";
+    public static final String CONSECUTIVE_INFO_DELIMITER = "--";
 
     public static final String YES = "Y";
     public static final String NO = "N";

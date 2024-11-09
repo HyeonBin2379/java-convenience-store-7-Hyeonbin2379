@@ -1,6 +1,6 @@
 package store.dao;
 
-import static store.util.constants.StringConstants.DELIMITER;
+import static store.util.constants.StringConstants.PURCHASE_UNIT_DELIMITER;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -22,7 +22,7 @@ public class InventoryDao extends Dao {
         ArrayList<Inventory> inventories = new ArrayList<>();
 
         for (String fileDatum : fileData) {
-            List<String> params = Arrays.stream(fileDatum.split(DELIMITER)).toList();
+            List<String> params = Arrays.stream(fileDatum.split(PURCHASE_UNIT_DELIMITER)).toList();
             inventories.add(new Inventory(params));
         }
         return inventories;
