@@ -26,24 +26,6 @@ class PurchaseControllerTest extends NsTest {
         });
     }
 
-    @ParameterizedTest
-    @DisplayName("멤버십 할인 금액은 일반 재고에서 구매한 금액의 30%이며, 최대 8,000원까지 할인할 수 있다.")
-    @MethodSource("providePurchaseAndExpects")
-    void testDiscountByMembership(String purchase, String expectedDiscount, String expectedFinalCost) {
-        assertSimpleTest(() -> {
-            run(purchase, YES, "N");
-            assertThat(output().replaceAll("\\s", ""))
-                    .containsSubsequence(expectedDiscount, expectedFinalCost);
-        });
-    }
-
-    private static Stream<Arguments> providePurchaseAndExpects() {
-        return Stream.of(
-                Arguments.of("[에너지바-5]", "멤버십할인-3,000", "내실돈7,000"),
-                Arguments.of("[정식도시락-5]", "멤버십할인-8,000", "내실돈24,000")
-        );
-    }
-
     @Test
     @DisplayName("프로모션 재고가 구매 수량보다 적을 때, 일부 수량을 정가로 결제하면 무료 증정은 프로모션 재고에만 적용한다.")
     void testPurchaseIfPromotionNotEnough() {
@@ -62,6 +44,24 @@ class PurchaseControllerTest extends NsTest {
             assertThat(output().replaceAll("\\s", ""))
                     .containsSubsequence("행사할인-0", "내실돈0");
         });
+    }
+
+    @ParameterizedTest
+    @DisplayName("멤버십 할인 금액은 일반 재고에서 구매한 금액의 30%이며, 최대 8,000원까지 할인할 수 있다.")
+    @MethodSource("providePurchaseAndExpects")
+    void testDiscountByMembership(String purchase, String expectedDiscount, String expectedFinalCost) {
+        assertSimpleTest(() -> {
+            run(purchase, YES, "N");
+            assertThat(output().replaceAll("\\s", ""))
+                    .containsSubsequence(expectedDiscount, expectedFinalCost);
+        });
+    }
+
+    private static Stream<Arguments> providePurchaseAndExpects() {
+        return Stream.of(
+                Arguments.of("[에너지바-5]", "멤버십할인-3,000", "내실돈7,000"),
+                Arguments.of("[정식도시락-5]", "멤버십할인-8,000", "내실돈24,000")
+        );
     }
 
     @Override
