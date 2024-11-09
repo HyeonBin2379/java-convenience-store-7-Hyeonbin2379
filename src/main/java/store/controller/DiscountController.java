@@ -3,6 +3,7 @@ package store.controller;
 import static store.util.message.InputMessage.PROMOTION_AVAILABLE;
 import static store.util.message.InputMessage.PROMOTION_NOT_AVAILABLE;
 
+import camp.nextstep.edu.missionutils.DateTimes;
 import store.config.AppConfig;
 import store.model.ItemStock;
 import store.model.Promotion;
@@ -21,7 +22,8 @@ public class DiscountController {
 
     public Purchase discountByPromotion(Purchase purchase, ItemStock stock) {
         Promotion promotion = stock.getPromotion();
-        if (promotion == Promotion.NONE || !promotion.isInProgress()) {
+
+        if (!Promotion.isAvailable(promotion, DateTimes.now())) {
             return promotionDiscountService.updateNormalQuantityNoPromotion(purchase);
         }
         return discountByAvailablePromotion(purchase, stock);
@@ -58,7 +60,7 @@ public class DiscountController {
     }
 
     private String makePromotionAvailableMessage(Purchase purchase, Promotion promotion) {
-        return String.format(PROMOTION_AVAILABLE, purchase.getName(), promotion.getGiveawayCount());
+        return String.format(PROMOTION_AVAILABLE.toString(), purchase.getName(), promotion.getFreeItemCount());
     }
 
 
@@ -74,6 +76,6 @@ public class DiscountController {
     }
 
     private String makePromotionNotAvailableMessage(Purchase purchase, int remainder) {
-        return String.format(PROMOTION_NOT_AVAILABLE, purchase.getName(), remainder);
+        return String.format(PROMOTION_NOT_AVAILABLE.toString(), purchase.getName(), remainder);
     }
 }
