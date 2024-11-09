@@ -21,9 +21,9 @@ public class InventoryDao extends Dao {
         List<String> fileData = readData("products.md");
         ArrayList<Inventory> inventories = new ArrayList<>();
 
-        for (int index = 0; index < fileData.size(); index++) {
-            List<String> params = Arrays.stream(fileData.get(index).split(DELIMITER)).toList();
-            inventories.add(new Inventory(index, params));
+        for (String fileDatum : fileData) {
+            List<String> params = Arrays.stream(fileDatum.split(DELIMITER)).toList();
+            inventories.add(new Inventory(params));
         }
         return inventories;
     }
@@ -38,11 +38,11 @@ public class InventoryDao extends Dao {
                 .toList();
     }
 
-    public int findIdBy(String name, Promotion promotion) {
+    public Integer findIdBy(String name, Promotion promotion) {
         return inventories.stream()
                 .filter(inventory -> name.equals(inventory.getName()) && promotion == inventory.getPromo())
                 .findFirst()
-                .map(Inventory::getId)
+                .map(inventories::indexOf)
                 .orElse(-1);
     }
 
@@ -54,7 +54,7 @@ public class InventoryDao extends Dao {
                 .orElse(Promotion.NONE);
     }
 
-    public int findPromotionQuantity(String name) {
+    public Integer findPromotionQuantity(String name) {
         return inventories.stream()
                 .filter(inventory -> name.equals(inventory.getName()) && inventory.getPromo() != Promotion.NONE)
                 .findFirst()
@@ -62,7 +62,7 @@ public class InventoryDao extends Dao {
                 .orElse(0);
     }
 
-    public int findNormalQuantity(String name) {
+    public Integer findNormalQuantity(String name) {
         return inventories.stream()
                 .filter(inventory -> name.equals(inventory.getName()) && inventory.getPromo() == Promotion.NONE)
                 .findFirst()
@@ -70,9 +70,9 @@ public class InventoryDao extends Dao {
                 .orElse(0);
     }
 
-    public void update(int id, int newQuantity) {
+    public void update(Integer id, Integer newQuantity) {
         Inventory inventory = inventories.get(id);
         inventory.setQuantity(newQuantity);
-        inventories.set(inventory.getId(), inventory);
+        inventories.set(inventories.indexOf(inventory), inventory);
     }
 }
