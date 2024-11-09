@@ -11,7 +11,6 @@ public class Purchases {
 
     private int totalPurchaseCount;
     private int totalCost;
-    private int totalBuyCost;
     private int promotionDiscount;
     private int membershipDiscount;
 
@@ -44,23 +43,20 @@ public class Purchases {
 
     public void calculateTotalCost() {
         totalCost = purchases.stream()
-                .map(Purchase::getTotalCost)
+                .map(Purchase::getItemCost)
                 .reduce(0, Integer::sum);
     }
 
     public void calculatePromotionDiscount() {
         promotionDiscount = purchases.stream()
-                .map(Purchase::getPromotionDiscount)
-                .reduce(0, Integer::sum);
-    }
-
-    public void calculateTotalBuyCost() {
-        totalBuyCost = purchases.stream()
-                .map(Purchase::getNonPromotionBuyCost)
+                .map(Purchase::calculatePromotionDiscount)
                 .reduce(0, Integer::sum);
     }
 
     public void calculateMembershipDiscount() {
+        int totalBuyCost = purchases.stream()
+                .map(Purchase::calculateNonPromotionBuyCost)
+                .reduce(0, Integer::sum);
         membershipDiscount = (int) Math.min(totalBuyCost*0.3, 8000);
     }
 
