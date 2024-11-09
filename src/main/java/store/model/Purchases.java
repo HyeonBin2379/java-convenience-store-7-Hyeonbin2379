@@ -37,7 +37,7 @@ public class Purchases {
 
     public void countTotalPurchase() {
         totalPurchaseCount = purchases.stream()
-                .map(Purchase::getTotalNeedCount)
+                .map(Purchase::getNeedCount)
                 .reduce(0, Integer::sum);
     }
 
@@ -55,7 +55,7 @@ public class Purchases {
 
     public void calculateMembershipDiscount() {
         int totalBuyCost = purchases.stream()
-                .map(Purchase::calculateNonPromotionBuyCost)
+                .map(Purchase::calculateNormalBuyCost)
                 .reduce(0, Integer::sum);
         membershipDiscount = (int) Math.min(totalBuyCost*0.3, 8000);
     }

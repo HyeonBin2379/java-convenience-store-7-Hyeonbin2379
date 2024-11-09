@@ -38,7 +38,7 @@ class PurchaseTest {
         int expectedNeedCount = 6;
         int expectedCost = 6000;
 
-        assertEquals(expectedNeedCount, purchase.getTotalNeedCount());
+        assertEquals(expectedNeedCount, purchase.getNeedCount());
         assertEquals(expectedCost, purchase.calculateCostBeforeDiscount());
     }
 
@@ -49,9 +49,9 @@ class PurchaseTest {
         int changedCount = 3;
         int expectedCost = 3000;
 
-        purchase.setTotalNeedCount(changedCount);
+        purchase.setNeedCount(changedCount);
 
-        assertEquals(changedCount, purchase.getTotalNeedCount());
+        assertEquals(changedCount, purchase.getNeedCount());
         assertEquals(expectedCost, purchase.calculateCostBeforeDiscount());
     }
 
@@ -74,8 +74,8 @@ class PurchaseTest {
         int nonPromotionCount = 3;
         int expectedNonPromotionCost = 1500;
 
-        purchase.addNonPromotionCount(nonPromotionCount);
+        purchase.addNormalCount(nonPromotionCount);
 
-        assertEquals(expectedNonPromotionCost, purchase.calculateNonPromotionBuyCost());
+        assertEquals(expectedNonPromotionCost, purchase.calculateNormalBuyCost());
     }
 }

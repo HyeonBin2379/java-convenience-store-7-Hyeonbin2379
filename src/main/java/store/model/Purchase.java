@@ -9,7 +9,7 @@ public class Purchase {
     private final Product product;
     private int freeItemCount;
     private int totalNeedCount;
-    private int nonPromotionCount;
+    private int normalCount;
 
     public Purchase(List<String> params) {
         validatePurchaseItem(params.getFirst(), Integer.parseInt(params.getLast()));
@@ -25,11 +25,11 @@ public class Purchase {
         return freeItemCount;
     }
 
-    public int getTotalNeedCount() {
+    public int getNeedCount() {
         return totalNeedCount;
     }
 
-    public void setTotalNeedCount(int newTotalCount) {
+    public void setNeedCount(int newTotalCount) {
         totalNeedCount = newTotalCount;
     }
 
@@ -42,12 +42,12 @@ public class Purchase {
         return product.calculateCost(freeItemCount);
     }
 
-    public int calculateNonPromotionBuyCost() {
-        return product.calculateCost(nonPromotionCount);
+    public int calculateNormalBuyCost() {
+        return product.calculateCost(normalCount);
     }
 
-    public void addNonPromotionCount(int count) {
-        nonPromotionCount += count;
+    public void addNormalCount(int count) {
+        normalCount += count;
     }
 
     public void addFreeItemCount(int count) {
