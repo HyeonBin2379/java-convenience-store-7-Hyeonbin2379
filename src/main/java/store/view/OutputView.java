@@ -43,7 +43,7 @@ public class OutputView {
             System.out.printf(PURCHASED_ITEM,
                     purchase.getName(),
                     purchase.getTotalNeedCount(),
-                    purchase.getItemCost());
+                    purchase.calculateCostBeforeDiscount());
         }
     }
 
