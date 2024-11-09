@@ -12,22 +12,22 @@ import store.model.Purchase;
 public class PurchaseValidator {
 
     public static void validatePurchaseItem(String name, Integer purchaseCount) {
-        List<Inventory> found = AppConfig.getInventoryDao().findByName(name);
-        validateItemExist(found);
-        validatePurchaseCount(found, purchaseCount);
+        validateItemExist(name);
+        validatePurchaseCount(name, purchaseCount);
     }
 
-    public static void validateItemExist(List<Inventory> found) {
+    public static void validateItemExist(String name) {
+        List<Inventory> found = AppConfig.getInventoryDao().findByName(name);
         if (found.isEmpty()) {
             throw new IllegalArgumentException(PURCHASED_ITEM_NOT_EXIST.getMessage());
         }
     }
 
-    public static void validatePurchaseCount(List<Inventory> found, Integer purchaseCount) {
-        int quantitySum = found.stream()
-                .map(Inventory::getQuantity)
-                .reduce(0, Integer::sum);
-        if (quantitySum < purchaseCount) {
+    public static void validatePurchaseCount(String name, Integer purchaseCount) {
+        int normal = AppConfig.getInventoryDao().findNormalQuantity(name);
+        int promotion = AppConfig.getInventoryDao().findPromotionQuantity(name);
+
+        if ((normal+promotion) < purchaseCount) {
             throw new IllegalArgumentException(PURCHASE_EXCEED_INVENTORY.getMessage());
         }
     }
