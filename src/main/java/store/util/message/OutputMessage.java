@@ -10,7 +10,7 @@ public final class OutputMessage {
     public static final String PURCHASED_ITEM = "%-12s\t%,-6d\t%,-1d\n";
 
     public static final String GIVEAWAY_TITLE = "===========증\t정=============";
-    public static final String GIVEAWAY_ITEM = "%-12s\t%,-1d\n";
+    public static final String GIVEAWAY_ITEM = "%-12s\t%,-6d\n";
 
     public static final String PURCHASE_RESULT_TITLE = "==============================";
     public static final String OUTPUT_TOTAL_COST = "%-12s\t%,-6d\t%,-5d\n";
