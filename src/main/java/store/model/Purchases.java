@@ -43,7 +43,7 @@ public class Purchases {
 
     public void calculateTotalCost() {
         totalCost = purchases.stream()
-                .map(Purchase::getItemCost)
+                .map(Purchase::calculateCostBeforeDiscount)
                 .reduce(0, Integer::sum);
     }
 

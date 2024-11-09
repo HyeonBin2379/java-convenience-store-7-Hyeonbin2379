@@ -17,7 +17,7 @@ public class PromotionDiscountService {
         int normalQuantity = inventoryDao.findNormalQuantity(purchase.getName());
 
         normalQuantity -= purchase.getTotalNeedCount();
-        purchase.addNonPromotionBuyCount(purchase.getTotalNeedCount());
+        purchase.addNonPromotionCount(purchase.getTotalNeedCount());
         inventoryDao.update(inventoryDao.findIdBy(purchase.getName(), Promotion.NONE), normalQuantity);
 
         return purchase;
@@ -59,7 +59,7 @@ public class PromotionDiscountService {
         int promotionQuantity = stock.getPromotionQuantity();
 
         normalQuantity -= (purchase.getTotalNeedCount() - promotionQuantity);
-        purchase.addNonPromotionBuyCount(purchase.getTotalNeedCount()-promotionQuantity);
+        purchase.addNonPromotionCount(purchase.getTotalNeedCount()-promotionQuantity);
         purchase.addFreeItemCount(promotionQuantity/promotion.getPromotionCount());
         inventoryDao.update(inventoryDao.findIdBy(purchase.getName(), promotion), 0);
         inventoryDao.update(inventoryDao.findIdBy(purchase.getName(), Promotion.NONE), normalQuantity);
