@@ -1,6 +1,8 @@
 package store.util.validator;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static store.util.constants.StringConstants.ERROR_MESSAGE;
 import static store.util.message.ExceptionMessage.INPUT_FORMAT_INCORRECT;
 import static store.util.validator.FormatValidator.validateBlank;
@@ -9,6 +11,7 @@ import static store.util.validator.FormatValidator.validateOption;
 import static store.util.validator.FormatValidator.validatePurchaseFormat;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -48,5 +51,14 @@ class FormatValidatorTest {
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> validateOption(optionInput))
                 .withMessageStartingWith(INPUT_FORMAT_INCORRECT.getMessage());
+    }
+
+    @Test
+    @DisplayName("Y나 y를 입력하면 true, N이나 n을 입력하면 false를 반환한다.")
+    void validateOptionTest() {
+        assertTrue(validateOption("Y"));
+        assertTrue(validateOption("y"));
+        assertFalse(validateOption("N"));
+        assertFalse(validateOption("n"));
     }
 }
