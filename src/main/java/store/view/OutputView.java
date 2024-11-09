@@ -32,21 +32,24 @@ public class OutputView {
     }
 
     public void displayReceipt(Purchases purchases) {
-        displayTotalCost(purchases);
-        displayFreeItemInfo(purchases);
+        displayTotalCost(purchases.getAll());
+        displayFreeItemInfo(purchases.getAll());
         displayTotalResult(purchases.getResult());
     }
 
-    public void displayTotalCost(Purchases purchases) {
+    public void displayTotalCost(List<Purchase> purchases) {
         System.out.printf(RECEIPT_TITLE, ITEM_NAME, QUANTITY, COST);
-        for (Purchase purchase : purchases.getAll()) {
-            System.out.printf(PURCHASED_ITEM, purchase.getName(), purchase.getTotalNeedCount(), purchase.getTotalCost());
+        for (Purchase purchase : purchases) {
+            System.out.printf(PURCHASED_ITEM,
+                    purchase.getName(),
+                    purchase.getTotalNeedCount(),
+                    purchase.getItemCost());
         }
     }
 
-    public void displayFreeItemInfo(Purchases purchases) {
+    public void displayFreeItemInfo(List<Purchase> purchases) {
         System.out.println(GIVEAWAY_TITLE);
-        for (Purchase purchase : purchases.getAll()) {
+        for (Purchase purchase : purchases) {
             if (purchase.getFreeItemCount() > 0) {
                 System.out.printf(GIVEAWAY_ITEM, purchase.getName(), purchase.getFreeItemCount());
             }
