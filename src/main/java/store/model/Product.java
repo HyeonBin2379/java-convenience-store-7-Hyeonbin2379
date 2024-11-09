@@ -29,7 +29,7 @@ public enum Product {
         return name;
     }
 
-    public int getPrice(int count) {
+    public int calculateCost(int count) {
         return price * count;
     }
 
