@@ -18,12 +18,20 @@ public class PurchaseController {
 
     private final InputView inputView = AppConfig.getInputView();
     private final OutputView outputView = AppConfig.getOutputView();
+
     private final DiscountController discountController = DiscountConfig.getDiscountController();
 
     private final PurchaseService purchaseService;
 
     public PurchaseController(PurchaseService purchaseService) {
         this.purchaseService = purchaseService;
+    }
+
+    public void start() {
+        do {
+            openAllInventory();
+            purchase();
+        } while(inputView.retryYesOrNo(RETRY_PURCHASE.toString()));
     }
 
     public void openAllInventory() {
@@ -35,6 +43,7 @@ public class PurchaseController {
         Purchases beforePromotion = inputView.retryItemInput();
         Purchases afterPromotion = discountByPromotion(beforePromotion);
         Purchases result = discountByMembership(afterPromotion);
+
         outputView.displayReceipt(result);
     }
 
@@ -55,17 +64,9 @@ public class PurchaseController {
     }
 
     public Purchases discountByMembership(Purchases purchases) {
-        if (inputView.retryYesOrNo(MEMBERSHIP_DISCOUNT)) {
-            purchases.calculateTotalBuyCost();
+        if (inputView.retryYesOrNo(MEMBERSHIP_DISCOUNT.toString())) {
             purchases.calculateMembershipDiscount();
         }
         return purchases;
-    }
-
-    public void start() {
-        do {
-            openAllInventory();
-            purchase();
-        } while(inputView.retryYesOrNo(RETRY_PURCHASE));
     }
 }
