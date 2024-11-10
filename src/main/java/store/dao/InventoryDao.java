@@ -9,42 +9,41 @@ import java.util.List;
 import store.model.Inventory;
 import store.model.Promotion;
 
-public class InventoryDao extends Dao {
+public class InventoryDao extends Dao<Inventory> {
 
-    private final List<Inventory> inventories;
+    private final List<Inventory> inventories = new ArrayList<>();
 
-    public InventoryDao() {
-        this.inventories = new ArrayList<>();
-    }
+    @Override
     public void initialize() throws FileNotFoundException {
         List<String> fileTable = readData("products.md");
 
         for (String fileRow : fileTable) {
             List<String> params = Arrays.stream(fileRow.split(PURCHASE_UNIT_DELIMITER)).toList();
             inventories.add(new Inventory(params));
-            if (hasSomeBeverage(params.getFirst(), fileTable)) {
+            if (hasNormalBeverage(params.getFirst(), fileTable)) {
                 inventories.add(new Inventory(List.of(params.getFirst(), params.get(1), "0", "null")));
             }
         }
     }
-    private boolean hasSomeBeverage(String itemName, List<String> fileTable) {
+    private boolean hasNormalBeverage(String itemName, List<String> fileTable) {
         return (itemName.equals("오렌지주스") || itemName.equals("탄산수"))
                 && fileTable.stream().noneMatch(fileRow -> fileRow.startsWith(itemName) && fileRow.endsWith("null"));
     }
 
+    @Override
     public List<Inventory> getAll() {
         return inventories;
     }
 
     public List<Inventory> findByName(String name) {
         return inventories.stream()
-                .filter(inventory -> name.equals(inventory.getName()))
+                .filter(inventory -> inventory.isMatched(name))
                 .toList();
     }
 
-    public Integer findIdBy(String name, Promotion promotion) {
+    public Integer findIdBy(String itemName, Promotion promotion) {
         return inventories.stream()
-                .filter(inventory -> name.equals(inventory.getName()) && promotion == inventory.getPromo())
+                .filter(inventory -> inventory.isMatched(itemName) && inventory.isMatched(promotion))
                 .findFirst()
                 .map(inventories::indexOf)
                 .orElse(-1);
@@ -52,23 +51,23 @@ public class InventoryDao extends Dao {
 
     public Promotion findPromotion(String itemName) {
         return inventories.stream()
-                .filter(inventory -> itemName.equals(inventory.getName()) && inventory.getPromo() != Promotion.NONE)
+                .filter(inventory -> inventory.isMatched(itemName) && inventory.isPromotionNotNull())
                 .findFirst()
-                .map(Inventory::getPromo)
-                .orElse(Promotion.NONE);
+                .map(Inventory::getPromotion)
+                .orElse(Promotion.NULL);
     }
 
-    public Integer findPromotionQuantity(String name) {
+    public Integer findPromotionQuantity(String itemName) {
         return inventories.stream()
-                .filter(inventory -> name.equals(inventory.getName()) && inventory.getPromo() != Promotion.NONE)
+                .filter(inventory -> inventory.isMatched(itemName) && inventory.isPromotionNotNull())
                 .findFirst()
                 .map(Inventory::getQuantity)
                 .orElse(0);
     }
 
-    public Integer findNormalQuantity(String name) {
+    public Integer findNormalQuantity(String itemName) {
         return inventories.stream()
-                .filter(inventory -> name.equals(inventory.getName()) && inventory.getPromo() == Promotion.NONE)
+                .filter(inventory -> inventory.isMatched(itemName) && !inventory.isPromotionNotNull())
                 .findFirst()
                 .map(Inventory::getQuantity)
                 .orElse(0);
