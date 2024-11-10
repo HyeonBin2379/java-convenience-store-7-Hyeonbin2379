@@ -19,7 +19,7 @@ public class Inventory {
         this.name = params.getFirst();
         this.price = Integer.parseInt(params.get(1));
         this.quantity = Integer.parseInt(params.get(2));
-        this.promotion = Promotion.findPromotion(params.get(3));
+        this.promotion = Promotion.findPromotion(params.get(3).replace("null", NO_PROMOTION));
     }
 
     public String getName() {
@@ -51,9 +51,6 @@ public class Inventory {
     }
 
     private String getPromoName() {
-        if (promotion == Promotion.NONE){
-            return NO_PROMOTION;
-        }
         return promotion.getName();
     }
 }

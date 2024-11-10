@@ -1,6 +1,7 @@
 package store.model;
 
 import static store.util.constants.StringConstants.DATE_FORMAT;
+import static store.util.constants.StringConstants.NO_PROMOTION;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,7 +14,7 @@ public enum Promotion {
     RECOMMENDED("MD추천상품", 1, 1, "2024-01-01", "2024-12-31"),
     SURPRISE("반짝할인", 1, 1, "2024-11-01", "2024-11-30"),
     VALENTINE_PROMOTION("발렌타인1+1", 1, 1, "2024-02-11", "2024-02-17"),
-    NONE("null", 1, 0, "1970-01-01", "9999-12-31");
+    NONE(NO_PROMOTION, 1, 0, "1970-01-01", "9999-12-31");
 
     private final String name;
     private final int bundleCount;
