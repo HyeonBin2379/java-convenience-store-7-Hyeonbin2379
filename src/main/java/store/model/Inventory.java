@@ -10,7 +10,7 @@ import java.util.List;
 public class Inventory {
 
     private final String name;
-    private final int price;
+    private final Integer price;
     private final Promotion promotion;
 
     private int quantity;
@@ -22,25 +22,33 @@ public class Inventory {
         this.promotion = Promotion.findPromotion(params.get(3).replace("null", NO_PROMOTION));
     }
 
-    public String getName() {
-        return name;
+    public boolean isMatched(String name) {
+        return this.name.equals(name);
     }
 
-    public int getQuantity() {
-        return quantity;
+    public boolean isMatched(Promotion promotion) {
+        return this.promotion == promotion;
     }
 
-    public Promotion getPromo() {
-        return promotion;
+    public boolean isPromotionNotNull() {
+        return promotion != Promotion.NULL;
     }
 
     public void setQuantity(int newQuantity) {
         quantity = newQuantity;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public Promotion getPromotion() {
+        return promotion;
+    }
+
     @Override
     public String toString() {
-        return String.format(ITEM_INFO, name, price, getNewValue(quantity), getPromoName());
+        return String.format(ITEM_INFO, name, price, getNewValue(quantity), promotion.getName());
     }
 
     private String getNewValue(Integer productCount) {
@@ -48,9 +56,5 @@ public class Inventory {
             return OUT_OF_STOCK;
         }
         return String.format(ITEM_COUNT, productCount);
-    }
-
-    private String getPromoName() {
-        return promotion.getName();
     }
 }
