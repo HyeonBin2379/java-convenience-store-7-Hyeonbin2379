@@ -54,13 +54,12 @@ public class DiscountController {
             return discountService.discountByOneBundle(purchase, promotion);
         }
         purchaseService.reduceByNeedCount(purchase, promotion, stock.getPromotionQuantity());
-        return purchase;
+        return discountService.discountByNoPromotion(purchase);
     }
     private boolean allowsPromotion(Purchase purchase, Promotion promotion) {
-        return inputView.retryYesOrNo(makeMessage(purchase, promotion));
-    }
-    private String makeMessage(Purchase purchase, Promotion promotion) {
-        return String.format(PROMOTION_AVAILABLE.toString(), purchase.getName(), promotion.getFreeCount());
+        String message = String.format(PROMOTION_AVAILABLE.toString(), purchase.getName(), promotion.getFreeCount());
+
+        return inputView.retryYesOrNo(message);
     }
 
 
@@ -88,9 +87,8 @@ public class DiscountController {
         return discountService.discountOnlyInManyBundles(purchase, promotion, promotionQuantity);
     }
     private boolean allowsBuyingExtra(Purchase purchase, int extraCount) {
-        return inputView.retryYesOrNo(makeMessage(purchase, extraCount));
-    }
-    private String makeMessage(Purchase purchase, int extraCount) {
-        return String.format(PROMOTION_NOT_AVAILABLE.toString(), purchase.getName(), extraCount);
+        String message = String.format(PROMOTION_NOT_AVAILABLE.toString(), purchase.getName(), extraCount);
+
+        return inputView.retryYesOrNo(message);
     }
 }
