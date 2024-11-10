@@ -27,23 +27,23 @@ public class PurchaseService {
         return new ItemStock(promotion, promotionQuantity, normalQuantity);
     }
 
-    public void reduceOnlyNormalQuantity(Purchase purchase) {
+    public synchronized void reduceOnlyNormalQuantity(Purchase purchase) {
         int normalCount = inventoryDao.findNormalQuantity(purchase.getName());
         int afterPurchase = normalCount - purchase.getNeedCount();
         inventoryDao.update(inventoryDao.findIdBy(purchase.getName(), Promotion.NONE), afterPurchase);
     }
 
-    public void reduceByOneBundle(Purchase purchase, Promotion promotion, int promotionQuantity) {
+    public synchronized void reduceByOneBundle(Purchase purchase, Promotion promotion, int promotionQuantity) {
         promotionQuantity -= promotion.getBundleCount();
         inventoryDao.update(inventoryDao.findIdBy(purchase.getName(), promotion), promotionQuantity);
     }
 
-    public void reduceByNeedCount(Purchase purchase, Promotion promotion, int promotionQuantity) {
+    public synchronized void reduceByNeedCount(Purchase purchase, Promotion promotion, int promotionQuantity) {
         promotionQuantity -= purchase.getNeedCount();
         inventoryDao.update(inventoryDao.findIdBy(purchase.getName(), promotion), promotionQuantity);
     }
 
-    public void reduceNormalAndPromotion(Purchase purchase, Promotion promotion, ItemStock stock) {
+    public synchronized void reduceNormalAndPromotion(Purchase purchase, Promotion promotion, ItemStock stock) {
         int normalCount = stock.getNormalQuantity();
         int promotionQuantity = stock.getPromotionQuantity();
 
@@ -52,7 +52,7 @@ public class PurchaseService {
         inventoryDao.update(inventoryDao.findIdBy(purchase.getName(), Promotion.NONE), normalCount);
     }
 
-    public void reduceByManyBundles(Purchase purchase, Promotion promotion, int promotionQuantity) {
+    public synchronized void reduceByManyBundles(Purchase purchase, Promotion promotion, int promotionQuantity) {
         int freeItemCount = promotionQuantity/promotion.getBundleCount();
 
         promotionQuantity -= freeItemCount*promotion.getBundleCount();
