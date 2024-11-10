@@ -35,6 +35,7 @@ public final class AppConfig {
         try {
             if (inventoryDao == null) {
                 inventoryDao = new InventoryDao();
+                inventoryDao.initialize();
             }
             return inventoryDao;
         } catch (IOException e) {

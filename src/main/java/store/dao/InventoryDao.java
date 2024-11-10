@@ -3,7 +3,6 @@ package store.dao;
 import static store.util.constants.StringConstants.PURCHASE_UNIT_DELIMITER;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,12 +11,12 @@ import store.model.Promotion;
 
 public class InventoryDao extends Dao {
 
-    private final List<Inventory> inventories = new ArrayList<>();
+    private final List<Inventory> inventories;
 
-    public InventoryDao() throws IOException {
-        initialize();
+    public InventoryDao() {
+        this.inventories = new ArrayList<>();
     }
-    private void initialize() throws FileNotFoundException {
+    public void initialize() throws FileNotFoundException {
         List<String> fileTable = readData("products.md");
 
         for (String fileRow : fileTable) {
