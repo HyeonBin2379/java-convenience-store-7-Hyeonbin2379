@@ -21,7 +21,28 @@ class PurchaseControllerTest extends NsTest {
     void discountByPromotionIfNeedCountLess() {
         assertSimpleTest(() -> {
             run("[오렌지주스-1]", YES, "N", "N");
-            assertThat(output().replaceAll("\\s", "")).contains("내실돈1,800");
+            assertThat(output().replaceAll("\\s", ""))
+                    .containsSubsequence("증정", "오렌지주스1", "행사할인-1,800", "내실돈1,800");
+        });
+    }
+
+    @Test
+    @DisplayName("프로모션 1묶음의 수량보다 구매 수량이 적을 때, 기존 구매 수량대로 구매 시 할인 없이 정가를 지불한다.")
+    void discountByNoPromotionIfNeedCountLessTest() {
+        assertSimpleTest(() -> {
+            run("[오렌지주스-1]", NO, "N", "N");
+            assertThat(output().replaceAll("\\s", ""))
+                    .containsSubsequence("행사할인-0", "내실돈1,800");
+        });
+    }
+
+    @Test
+    @DisplayName("구매 수량이 프로모션 1묶음보다 많고 프로모션 재고가 충분하면 프로모션 할인을 적용한다.")
+    void discountByPromotionIfMoreThanOneBundle() {
+        assertSimpleTest(() -> {
+            run("[오렌지주스-3]", "N", "N");
+            assertThat(output().replaceAll("\\s", ""))
+                    .containsSubsequence("증정", "오렌지주스1", "행사할인-1,800", "내실돈3,600");
         });
     }
 
