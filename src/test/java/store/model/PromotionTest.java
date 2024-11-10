@@ -37,7 +37,7 @@ class PromotionTest {
 
         int expectedFreeItemCount = 0;
 
-        assertEquals(Promotion.NONE, found);
+        assertEquals(Promotion.NULL, found);
         assertEquals(expectedFreeItemCount, found.getFreeCount());
     }
 

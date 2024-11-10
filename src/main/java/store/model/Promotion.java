@@ -14,7 +14,7 @@ public enum Promotion {
     RECOMMENDED("MD추천상품", 1, 1, "2024-01-01", "2024-12-31"),
     SURPRISE("반짝할인", 1, 1, "2024-11-01", "2024-11-30"),
     VALENTINE_PROMOTION("발렌타인1+1", 1, 1, "2024-02-11", "2024-02-17"),
-    NONE(NO_PROMOTION, 1, 0, "1970-01-01", "9999-12-31");
+    NULL(NO_PROMOTION, 1, 0, "1970-01-01", "9999-12-31");
 
     private final String name;
     private final int bundleCount;
@@ -43,7 +43,7 @@ public enum Promotion {
     }
 
     public static boolean isAvailable(Promotion promotion, LocalDateTime now) {
-        return promotion != Promotion.NONE && promotion.isInProgress(now);
+        return promotion != Promotion.NULL && promotion.isInProgress(now);
     }
 
     public boolean isInProgress(LocalDateTime now) {
@@ -56,6 +56,6 @@ public enum Promotion {
         return Arrays.stream(Promotion.values())
                 .filter(promotion -> promotion.getName().equals(name))
                 .findFirst()
-                .orElse(NONE);
+                .orElse(NULL);
     }
 }

@@ -30,7 +30,7 @@ public class PurchaseService {
     public synchronized void reduceOnlyNormalQuantity(Purchase purchase) {
         int normalCount = inventoryDao.findNormalQuantity(purchase.getName());
         int afterPurchase = normalCount - purchase.getNeedCount();
-        inventoryDao.update(inventoryDao.findIdBy(purchase.getName(), Promotion.NONE), afterPurchase);
+        inventoryDao.update(inventoryDao.findIdBy(purchase.getName(), Promotion.NULL), afterPurchase);
     }
 
     public synchronized void reduceByOneBundle(Purchase purchase, Promotion promotion, int promotionQuantity) {
@@ -49,7 +49,7 @@ public class PurchaseService {
 
         normalCount -= (purchase.getNeedCount() - promotionQuantity);
         inventoryDao.update(inventoryDao.findIdBy(purchase.getName(), promotion), 0);
-        inventoryDao.update(inventoryDao.findIdBy(purchase.getName(), Promotion.NONE), normalCount);
+        inventoryDao.update(inventoryDao.findIdBy(purchase.getName(), Promotion.NULL), normalCount);
     }
 
     public synchronized void reduceByManyBundles(Purchase purchase, Promotion promotion, int promotionQuantity) {
