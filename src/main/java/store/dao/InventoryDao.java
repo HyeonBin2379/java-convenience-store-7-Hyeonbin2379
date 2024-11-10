@@ -12,20 +12,25 @@ import store.model.Promotion;
 
 public class InventoryDao extends Dao {
 
-    private final List<Inventory> inventories;
+    private final List<Inventory> inventories = new ArrayList<>();
 
     public InventoryDao() throws IOException {
-        this.inventories = initialize();
+        initialize();
     }
-    private List<Inventory> initialize() throws FileNotFoundException {
-        List<String> fileData = readData("products.md");
-        ArrayList<Inventory> inventories = new ArrayList<>();
+    private void initialize() throws FileNotFoundException {
+        List<String> fileTable = readData("products.md");
 
-        for (String fileDatum : fileData) {
-            List<String> params = Arrays.stream(fileDatum.split(PURCHASE_UNIT_DELIMITER)).toList();
+        for (String fileRow : fileTable) {
+            List<String> params = Arrays.stream(fileRow.split(PURCHASE_UNIT_DELIMITER)).toList();
             inventories.add(new Inventory(params));
+            if (hasSomeBeverage(params.getFirst(), fileTable)) {
+                inventories.add(new Inventory(List.of(params.getFirst(), params.get(1), "0", "null")));
+            }
         }
-        return inventories;
+    }
+    private boolean hasSomeBeverage(String itemName, List<String> fileTable) {
+        return (itemName.equals("오렌지주스") || itemName.equals("탄산수"))
+                && fileTable.stream().noneMatch(fileRow -> fileRow.startsWith(itemName) && fileRow.endsWith("null"));
     }
 
     public List<Inventory> getAll() {
