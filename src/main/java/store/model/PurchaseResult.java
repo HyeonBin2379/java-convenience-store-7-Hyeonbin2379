@@ -2,35 +2,35 @@ package store.model;
 
 public class PurchaseResult {
 
-    private final int totalPurchaseCount;
+    private final int totalCount;
     private final int totalCost;
     private final int promotionDiscount;
     private final int membershipDiscount;
 
-    public PurchaseResult(int totalPurchaseCount, int totalCost, int promotionDiscount, int membershipDiscount) {
-        this.totalPurchaseCount = totalPurchaseCount;
+    public PurchaseResult(Integer totalCount, Integer totalCost, Integer promotionDiscount, Integer membershipDiscount) {
+        this.totalCount = totalCount;
         this.totalCost = totalCost;
         this.promotionDiscount = promotionDiscount;
         this.membershipDiscount = membershipDiscount;
     }
 
-    public int getTotalCount() {
-        return totalPurchaseCount;
+    public Integer getTotalCount() {
+        return totalCount;
     }
 
-    public int getTotalCost() {
+    public Integer getTotalCost() {
         return totalCost;
     }
 
-    public int getPromotionDiscount() {
+    public Integer getPromotionDiscount() {
         return promotionDiscount;
     }
 
-    public int getMembershipDiscount() {
+    public Integer getMembershipDiscount() {
         return membershipDiscount;
     }
 
-    public int getFinalCost() {
+    public Integer getFinalCost() {
         return getTotalCost() - getPromotionDiscount() - getMembershipDiscount();
     }
 }

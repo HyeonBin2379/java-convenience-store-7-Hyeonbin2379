@@ -18,23 +18,23 @@ public class Purchase {
         this.totalNeedCount = Integer.parseInt(params.getLast());
     }
 
-    public int calculateCostBeforeDiscount() {
+    public Integer calculateCostBeforeDiscount() {
         return product.calculateCost(totalNeedCount);
     }
 
-    public int calculatePromotionDiscount() {
+    public Integer calculatePromotionDiscount() {
         return product.calculateCost(freeCount);
     }
 
-    public int calculateNormalBuyCost() {
+    public Integer calculateNormalBuyCost() {
         return product.calculateCost(normalCount);
     }
 
-    public void addNormalCount(int count) {
+    public void addNormalCount(Integer count) {
         normalCount += count;
     }
 
-    public void addFreeItemCount(int count) {
+    public void addFreeItemCount(Integer count) {
         freeCount += count;
     }
 
@@ -42,15 +42,15 @@ public class Purchase {
         return product.getName();
     }
 
-    public int getFreeCount() {
+    public Integer getFreeCount() {
         return freeCount;
     }
 
-    public int getNeedCount() {
+    public Integer getNeedCount() {
         return totalNeedCount;
     }
 
-    public void setNeedCount(int newTotalCount) {
+    public void setNeedCount(Integer newTotalCount) {
         totalNeedCount = newTotalCount;
     }
 }

@@ -16,12 +16,12 @@ public abstract class Dao<T> {
 
     public final List<String> readData(String filename) throws FileNotFoundException {
         Scanner fileReader = new Scanner(new FileReader(DIRECTORY_PATH + filename));
-        List<String> fileData = new ArrayList<>();
+        List<String> fileTable = new ArrayList<>();
 
         fileReader.nextLine();
         while (fileReader.hasNext()) {
-            fileData.add(fileReader.nextLine());
+            fileTable.add(fileReader.nextLine());
         }
-        return fileData;
+        return fileTable;
     }
 }

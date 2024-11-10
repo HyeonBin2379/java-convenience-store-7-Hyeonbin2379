@@ -23,7 +23,7 @@ public class DiscountService {
         return purchase;
     }
 
-    public Purchase discountOnlyInPromotion(Purchase purchase, Promotion promotion, int promotionQuantity) {
+    public Purchase discountOnlyInPromotion(Purchase purchase, Promotion promotion, Integer promotionQuantity) {
         int freeItemCount = promotionQuantity / promotion.getBundleCount();
         int totalBundleCount = freeItemCount * promotion.getBundleCount();
 
@@ -32,7 +32,7 @@ public class DiscountService {
         return purchase;
     }
 
-    public Purchase discountOnlyInManyBundles(Purchase purchase, Promotion promotion, int promotionQuantity) {
+    public Purchase discountOnlyInManyBundles(Purchase purchase, Promotion promotion, Integer promotionQuantity) {
         int freeItemCount = promotionQuantity / promotion.getBundleCount();
         int totalBundleCount = freeItemCount * promotion.getBundleCount();
 

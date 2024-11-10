@@ -19,7 +19,7 @@ public class Purchases {
         this.purchases = new ArrayList<>(purchases);
     }
 
-    public Purchase get(int index) {
+    public Purchase get(Integer index) {
         return purchases.get(index);
     }
 
@@ -27,11 +27,11 @@ public class Purchases {
         return purchases;
     }
 
-    public void updatePurchase(int index, Purchase purchase) {
+    public void updatePurchase(Integer index, Purchase purchase) {
         purchases.set(index, purchase);
     }
 
-    public int getSize() {
+    public Integer getSize() {
         return purchases.size();
     }
 
@@ -57,7 +57,7 @@ public class Purchases {
         int totalBuyCost = purchases.stream()
                 .map(Purchase::calculateNormalBuyCost)
                 .reduce(0, Integer::sum);
-        membershipDiscount = (int) Math.min(totalBuyCost*0.3, 8000);
+        membershipDiscount = Math.min((int)(totalBuyCost*0.3), 8000);
     }
 
     public PurchaseResult getResult() {

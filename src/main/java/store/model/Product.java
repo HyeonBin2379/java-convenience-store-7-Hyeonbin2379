@@ -18,9 +18,9 @@ public enum Product {
     NONE("", 0);
 
     private final String name;
-    private final int price;
+    private final Integer price;
 
-    Product(String name, int price) {
+    Product(String name, Integer price) {
         this.name = name;
         this.price = price;
     }
@@ -29,7 +29,7 @@ public enum Product {
         return name;
     }
 
-    public int calculateCost(int count) {
+    public Integer calculateCost(Integer count) {
         return price * count;
     }
 

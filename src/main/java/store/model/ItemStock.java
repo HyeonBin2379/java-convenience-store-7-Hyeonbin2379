@@ -6,7 +6,7 @@ public class ItemStock {
     private final int promotionQuantity;
     private final int normalQuantity;
 
-    public ItemStock(Promotion promotion, int promotionQuantity, int normalQuantity) {
+    public ItemStock(Promotion promotion, Integer promotionQuantity, Integer normalQuantity) {
         this.promotion = promotion;
         this.promotionQuantity = promotionQuantity;
         this.normalQuantity = normalQuantity;

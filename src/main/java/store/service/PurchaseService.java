@@ -33,12 +33,12 @@ public class PurchaseService {
         inventoryDao.update(inventoryDao.findIdBy(purchase.getName(), Promotion.NULL), afterPurchase);
     }
 
-    public synchronized void reduceByOneBundle(Purchase purchase, Promotion promotion, int promotionQuantity) {
+    public synchronized void reduceByOneBundle(Purchase purchase, Promotion promotion, Integer promotionQuantity) {
         promotionQuantity -= promotion.getBundleCount();
         inventoryDao.update(inventoryDao.findIdBy(purchase.getName(), promotion), promotionQuantity);
     }
 
-    public synchronized void reduceByNeedCount(Purchase purchase, Promotion promotion, int promotionQuantity) {
+    public synchronized void reduceByNeedCount(Purchase purchase, Promotion promotion, Integer promotionQuantity) {
         promotionQuantity -= purchase.getNeedCount();
         inventoryDao.update(inventoryDao.findIdBy(purchase.getName(), promotion), promotionQuantity);
     }
@@ -52,7 +52,7 @@ public class PurchaseService {
         inventoryDao.update(inventoryDao.findIdBy(purchase.getName(), Promotion.NULL), normalCount);
     }
 
-    public synchronized void reduceByManyBundles(Purchase purchase, Promotion promotion, int promotionQuantity) {
+    public synchronized void reduceByManyBundles(Purchase purchase, Promotion promotion, Integer promotionQuantity) {
         int freeItemCount = promotionQuantity/promotion.getBundleCount();
 
         promotionQuantity -= freeItemCount*promotion.getBundleCount();

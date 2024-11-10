@@ -83,7 +83,7 @@ public class DiscountController {
         purchaseService.reduceByManyBundles(purchase, promotion, promotionQuantity);
         return discountService.discountOnlyInManyBundles(purchase, promotion, promotionQuantity);
     }
-    private boolean allowsBuyingExtra(Purchase purchase, int extraCount) {
+    private boolean allowsBuyingExtra(Purchase purchase, Integer extraCount) {
         String message = String.format(PROMOTION_NOT_AVAILABLE.toString(), purchase.getName(), extraCount);
 
         return inputView.retryYesOrNo(message);

@@ -22,23 +22,23 @@ public class Inventory {
         this.promotion = Promotion.findPromotion(params.get(3).replace("null", NO_PROMOTION));
     }
 
-    public boolean isMatched(String name) {
+    public Boolean isMatched(String name) {
         return this.name.equals(name);
     }
 
-    public boolean isMatched(Promotion promotion) {
+    public Boolean isMatched(Promotion promotion) {
         return this.promotion == promotion;
     }
 
-    public boolean isPromotionNotNull() {
+    public Boolean isPromotionNotNull() {
         return promotion != Promotion.NULL;
     }
 
-    public void setQuantity(int newQuantity) {
+    public void setQuantity(Integer newQuantity) {
         quantity = newQuantity;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 

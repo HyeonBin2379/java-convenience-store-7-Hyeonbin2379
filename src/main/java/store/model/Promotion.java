@@ -22,7 +22,7 @@ public enum Promotion {
     private final LocalDate startDate;
     private final LocalDate endDate;
 
-    Promotion(String name, int buyCount, int freeCount, String startDate, String endDate) {
+    Promotion(String name, Integer buyCount, Integer freeCount, String startDate, String endDate) {
         this.name = name;
         this.bundleCount = buyCount + freeCount;
         this.freeCount = freeCount;
@@ -34,11 +34,11 @@ public enum Promotion {
         return name;
     }
 
-    public int getFreeCount() {
+    public Integer getFreeCount() {
         return freeCount;
     }
 
-    public int getBundleCount() {
+    public Integer getBundleCount() {
         return bundleCount;
     }
 
