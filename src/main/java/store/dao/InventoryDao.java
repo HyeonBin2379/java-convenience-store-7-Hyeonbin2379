@@ -1,6 +1,6 @@
 package store.dao;
 
-import static store.util.constants.StringConstants.PURCHASE_UNIT_DELIMITER;
+import static store.util.constants.FormatString.PURCHASE_UNIT_DELIMITER;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;

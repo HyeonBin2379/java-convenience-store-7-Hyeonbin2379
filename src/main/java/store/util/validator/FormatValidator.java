@@ -1,11 +1,11 @@
 package store.util.validator;
 
-import static store.util.constants.StringConstants.CONSECUTIVE_INFO_DELIMITER;
-import static store.util.constants.StringConstants.CONSECUTIVE_UNIT_DELIMITER;
+import static store.util.constants.FormatString.CONSECUTIVE_INFO_DELIMITER;
+import static store.util.constants.FormatString.CONSECUTIVE_UNIT_DELIMITER;
+import static store.util.constants.FormatString.PURCHASE_INFO_DELIMITER;
+import static store.util.constants.FormatString.PURCHASE_INFO_FORMAT;
+import static store.util.constants.FormatString.PURCHASE_UNIT_DELIMITER;
 import static store.util.constants.StringConstants.NO;
-import static store.util.constants.StringConstants.PURCHASE_UNIT_DELIMITER;
-import static store.util.constants.StringConstants.PURCHASE_INFO_DELIMITER;
-import static store.util.constants.StringConstants.PURCHASE_INFO_FORMAT;
 import static store.util.constants.StringConstants.YES;
 import static store.util.message.ExceptionMessage.INPUT_FORMAT_INCORRECT;
 import static store.util.message.ExceptionMessage.OTHER_INPUT_ERROR;

@@ -1,6 +1,6 @@
 package store.model;
 
-import static store.util.constants.StringConstants.DATE_FORMAT;
+import static store.util.constants.FormatString.DATE_FORMAT;
 import static store.util.constants.StringConstants.NO_PROMOTION;
 
 import java.time.LocalDate;

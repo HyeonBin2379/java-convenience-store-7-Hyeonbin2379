@@ -2,17 +2,9 @@ package store.util.constants;
 
 public final class StringConstants {
 
-    public static final String PURCHASE_UNIT_DELIMITER = ",";
-    public static final String CONSECUTIVE_UNIT_DELIMITER = ",,";
-    public static final String CONSECUTIVE_INFO_DELIMITER = "--";
-
     public static final String YES = "Y";
     public static final String NO = "N";
     public static final String ERROR_MESSAGE = "[ERROR]";
-
-    public static final String PURCHASE_INFO_FORMAT = "^\\[([^0-9]+)-([1-9][0-9]*)\\]$";
-    public static final String PURCHASE_INFO_DELIMITER = "[\\[\\]\\-]";
-    public static final String DATE_FORMAT = "yyyy-MM-dd";
 
     public static final String ITEM_NAME = "상품명";
     public static final String QUANTITY = "수량";
