@@ -1,7 +1,6 @@
 package store;
 
 import camp.nextstep.edu.missionutils.test.NsTest;
-import java.io.IOException;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -64,10 +63,6 @@ class ApplicationTest extends NsTest {
 
     @Override
     public void runMain() {
-        try {
-            Application.main(new String[]{});
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        Application.main(new String[]{});
     }
 }

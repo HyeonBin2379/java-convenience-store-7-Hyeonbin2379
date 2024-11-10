@@ -6,7 +6,6 @@ import static store.util.constants.StringConstants.NO;
 import static store.util.constants.StringConstants.YES;
 
 import camp.nextstep.edu.missionutils.test.NsTest;
-import java.io.IOException;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -66,10 +65,6 @@ class PurchaseControllerTest extends NsTest {
 
     @Override
     protected void runMain() {
-        try {
-            Application.main(new String[]{});
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        Application.main(new String[]{});
     }
 }
