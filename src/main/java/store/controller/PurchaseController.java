@@ -50,7 +50,7 @@ public class PurchaseController {
     public Purchases discountByPromotion(Purchases purchases) {
         for (int index = 0; index < purchases.getSize(); index++) {
             ItemStock stock = purchaseService.getItemStockInfo(purchases.get(index));
-            Purchase result = discountController.discountByPromotionOrNot(purchases.get(index), stock);
+            Purchase result = discountController.discount(purchases.get(index), stock);
             purchases.updatePurchase(index, result);
         }
         return calculatePurchaseCost(purchases);
