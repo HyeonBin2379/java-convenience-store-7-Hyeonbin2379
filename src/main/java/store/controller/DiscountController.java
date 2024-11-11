@@ -74,7 +74,7 @@ public class DiscountController {
     public Purchase needNoLessThanPromotion(Purchase purchase, Promotion promotion, ItemStock stock) {
         int promotionQuantity = stock.getPromotionQuantity();
         int promotionCount = promotion.getBundleCount();
-        int extraCount = purchase.getNeedCount() - promotionCount*(promotionQuantity/promotionCount);
+        int extraCount = purchase.getNeedCount() - promotionCount * (promotionQuantity / promotionCount);
 
         if (allowsBuyingExtra(purchase, extraCount)) {
             purchaseService.reduceNormalAndPromotion(purchase, promotion, stock);
