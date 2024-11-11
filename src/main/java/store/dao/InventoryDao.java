@@ -20,14 +20,14 @@ public class InventoryDao extends Dao<Inventory> {
         for (String fileRow : fileTable) {
             List<String> params = Arrays.stream(fileRow.split(PURCHASE_UNIT_DELIMITER)).toList();
             inventories.add(new Inventory(params));
-            if (hasNormalBeverage(params.getFirst(), fileTable)) {
+            if (hasBeverageNormalInventory(params.getFirst(), fileTable)) {
                 inventories.add(new Inventory(List.of(params.getFirst(), params.get(1), "0", "null")));
             }
         }
     }
-    private boolean hasNormalBeverage(String itemName, List<String> fileTable) {
-        return (itemName.equals("오렌지주스") || itemName.equals("탄산수"))
-                && fileTable.stream().noneMatch(fileRow -> fileRow.startsWith(itemName) && fileRow.endsWith("null"));
+    private boolean hasBeverageNormalInventory(String beverage, List<String> fileTable) {
+        return (beverage.equals("오렌지주스") || beverage.equals("탄산수"))
+                && fileTable.stream().noneMatch(fileRow -> fileRow.startsWith(beverage) && fileRow.endsWith("null"));
     }
 
     @Override
