@@ -3,12 +3,12 @@ package store.view;
 import static store.util.message.InputMessage.SELECT_ITEM;
 import static store.util.validator.FormatValidator.validateInputString;
 import static store.util.validator.FormatValidator.validateOption;
+import static store.util.validator.FormatValidator.validatePurchaseFormat;
 
 import camp.nextstep.edu.missionutils.Console;
 import java.util.List;
 import store.model.Purchase;
 import store.model.Purchases;
-import store.util.validator.FormatValidator;
 
 public class InputView extends AbstractInputView {
 
@@ -16,7 +16,7 @@ public class InputView extends AbstractInputView {
         System.out.println(SELECT_ITEM);
         List<String> input = validateInputString(Console.readLine());
         return input.stream()
-                .map(FormatValidator::validatePurchaseFormat)
+                .map(purchaseUnit -> validatePurchaseFormat(purchaseUnit.strip()))
                 .map(Purchase::new)
                 .toList();
     }
