@@ -16,11 +16,15 @@ public class ItemStock {
         return promotion;
     }
 
-    public int getPromotionQuantity() {
+    public Integer getPromotionQuantity() {
         return promotionQuantity;
     }
 
-    public int getNormalQuantity() {
+    public Integer getNormalQuantity() {
         return normalQuantity;
+    }
+
+    public Integer getPurchasedPromotionCount() {
+        return promotion.getBundleCount() * (promotionQuantity / promotion.getBundleCount());
     }
 }
