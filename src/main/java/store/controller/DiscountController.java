@@ -40,38 +40,18 @@ public class DiscountController {
         int needCount = purchase.getNeedCount();
         int promotionQuantity = stock.getPromotionQuantity();
 
-        if (needCount < promotionQuantity) {
-            return needLessThanBundleOrNot(purchase, promotion, stock);
+        if (needCount == promotionQuantity) {
+            return discountByAsNeeded(purchase, promotion, promotionQuantity);
         }
         if (needCount > promotionQuantity) {
             return needMoreThanPromotion(purchase, promotion, stock);
         }
-        purchaseService.reduceByNeedCount(purchase, promotion, stock.getPromotionQuantity());
+        return needLessThanBundleOrNot(purchase, promotion, stock);
+    }
+
+    public Purchase discountByAsNeeded(Purchase purchase, Promotion promotion, int promotionQuantity) {
+        purchaseService.reduceByNeedCount(purchase, promotion, promotionQuantity);
         return discountService.discountByPromotion(purchase, promotion);
-    }
-
-    public Purchase needLessThanBundleOrNot(Purchase purchase, Promotion promotion, ItemStock stock) {
-        int needCount = purchase.getNeedCount();
-
-        if (needCount < promotion.getBundleCount()) {
-            return needLessThanOneBundle(purchase, promotion, stock);
-        }
-        purchaseService.reduceByNeedCount(purchase, promotion, stock.getPromotionQuantity());
-        return discountService.discountByPromotion(purchase, promotion);
-    }
-
-    public Purchase needLessThanOneBundle(Purchase purchase, Promotion promotion, ItemStock stock) {
-        if (allowsPromotion(purchase, promotion)) {
-            purchaseService.reduceByOneBundle(purchase, promotion, stock.getPromotionQuantity());
-            return discountService.discountByOneBundle(purchase, promotion);
-        }
-        purchaseService.reduceByNeedCount(purchase, promotion, stock.getPromotionQuantity());
-        return discountService.discountByNoPromotion(purchase);
-    }
-    private boolean allowsPromotion(Purchase purchase, Promotion promotion) {
-        String message = String.format(PROMOTION_AVAILABLE.toString(), purchase.getName(), promotion.getFreeCount());
-
-        return inputView.retryYesOrNo(message);
     }
 
     public Purchase needMoreThanPromotion(Purchase purchase, Promotion promotion, ItemStock stock) {
@@ -87,6 +67,29 @@ public class DiscountController {
     }
     private boolean allowsBuyingExtra(Purchase purchase, Integer extraCount) {
         String message = String.format(PROMOTION_NOT_AVAILABLE.toString(), purchase.getName(), extraCount);
+
+        return inputView.retryYesOrNo(message);
+    }
+
+    public Purchase needLessThanBundleOrNot(Purchase purchase, Promotion promotion, ItemStock stock) {
+        int needCount = purchase.getNeedCount();
+
+        if (needCount < promotion.getBundleCount()) {
+            return needLessThanOneBundle(purchase, promotion, stock);
+        }
+        return discountByAsNeeded(purchase, promotion, stock.getPromotionQuantity());
+    }
+
+    public Purchase needLessThanOneBundle(Purchase purchase, Promotion promotion, ItemStock stock) {
+        if (allowsPromotion(purchase, promotion)) {
+            purchaseService.reduceByOneBundle(purchase, promotion, stock.getPromotionQuantity());
+            return discountService.discountByOneBundle(purchase, promotion);
+        }
+        purchaseService.reduceByNeedCount(purchase, promotion, stock.getPromotionQuantity());
+        return discountService.discountByNoPromotion(purchase);
+    }
+    private boolean allowsPromotion(Purchase purchase, Promotion promotion) {
+        String message = String.format(PROMOTION_AVAILABLE.toString(), purchase.getName(), promotion.getFreeCount());
 
         return inputView.retryYesOrNo(message);
     }
