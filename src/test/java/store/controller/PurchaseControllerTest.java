@@ -17,7 +17,7 @@ import store.Application;
 class PurchaseControllerTest extends NsTest {
 
     @Test
-    @DisplayName("프로모션 적용 수량보다 적게 구매할 때 프로모션 할인을 적용하면 프로모션 적용 수량만큼 구매한 비용을 지불한다.")
+    @DisplayName("프로모션 상품 1묶음의 수량보다 구매 수량이 적을 때 프로모션 할인을 적용하면 프로모션 1묶음을 구매할 때처럼 비용을 지불한다.")
     void discountByPromotionIfNeedCountLess() {
         assertSimpleTest(() -> {
             run("[오렌지주스-1]", YES, "N", "N");
