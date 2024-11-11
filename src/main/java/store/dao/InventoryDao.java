@@ -1,7 +1,5 @@
 package store.dao;
 
-import static store.util.constants.FormatString.PURCHASE_UNIT_DELIMITER;
-
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,6 +9,8 @@ import store.model.Promotion;
 
 public class InventoryDao extends Dao<Inventory> {
 
+    private static final String COLUMN_DELIMITER = ",";
+
     private final List<Inventory> inventories = new ArrayList<>();
 
     @Override
@@ -18,7 +18,7 @@ public class InventoryDao extends Dao<Inventory> {
         List<String> fileTable = readData("products.md");
 
         for (String fileRow : fileTable) {
-            List<String> params = Arrays.stream(fileRow.split(PURCHASE_UNIT_DELIMITER)).toList();
+            List<String> params = Arrays.stream(fileRow.split(COLUMN_DELIMITER)).toList();
             inventories.add(new Inventory(params));
             if (hasNormalInventory(params.getFirst(), fileTable)) {
                 inventories.add(new Inventory(List.of(params.getFirst(), params.get(1), "0", "null")));
