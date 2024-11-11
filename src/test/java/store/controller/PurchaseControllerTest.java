@@ -66,6 +66,16 @@ class PurchaseControllerTest extends NsTest {
         });
     }
 
+    @Test
+    @DisplayName("구매 수량이 프로모션 재고의 수량과 동일한 경우 프로모션 할인 관련 추가 메시지 없이 프로모션 할인을 적용한다.")
+    void testIfNeedSameAsPromotionQuantity() {
+        assertSimpleTest(() -> {
+            run("[초코바-5]", "N", "N");
+            assertThat(output().replaceAll("\\s", ""))
+                    .containsSubsequence("증정", "초코바2", "행사할인-2,400", "내실돈3,600");
+        });
+    }
+
     @ParameterizedTest
     @DisplayName("멤버십 할인 금액은 일반 재고에서 구매한 금액의 30%이며, 최대 8,000원까지 할인할 수 있다.")
     @MethodSource("providePurchaseAndExpects")
