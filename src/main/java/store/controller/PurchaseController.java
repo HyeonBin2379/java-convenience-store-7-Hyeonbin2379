@@ -30,7 +30,8 @@ public class PurchaseController {
     public void start() {
         do {
             openAllInventory();
-            purchase();
+            Purchases result = purchase();
+            outputView.displayReceipt(calculateCost(result));
         } while(inputView.retryYesOrNo(RETRY_PURCHASE.toString()));
     }
 
@@ -39,12 +40,10 @@ public class PurchaseController {
         outputView.displayInventoryInfo(allInventory);
     }
 
-    public void purchase() {
+    public Purchases purchase() {
         Purchases beforePromotion = inputView.retryItemInput();
         Purchases afterPromotion = discountByPromotion(beforePromotion);
-        Purchases result = discountByMembership(afterPromotion);
-
-        outputView.displayReceipt(result);
+        return discountByMembership(afterPromotion);
     }
 
     public Purchases discountByPromotion(Purchases purchases) {
@@ -53,13 +52,6 @@ public class PurchaseController {
             Purchase result = discountController.discount(purchases.get(index), stock);
             purchases.updatePurchase(index, result);
         }
-        return calculatePurchaseCost(purchases);
-    }
-
-    public Purchases calculatePurchaseCost(Purchases purchases) {
-        purchases.calculateTotalCost();
-        purchases.countTotalPurchase();
-        purchases.calculatePromotionDiscount();
         return purchases;
     }
 
@@ -67,6 +59,13 @@ public class PurchaseController {
         if (inputView.retryYesOrNo(MEMBERSHIP_DISCOUNT.toString())) {
             purchases.calculateMembershipDiscount();
         }
+        return purchases;
+    }
+
+    public Purchases calculateCost(Purchases purchases) {
+        purchases.calculateTotalCost();
+        purchases.countTotalPurchase();
+        purchases.calculatePromotionDiscount();
         return purchases;
     }
 }
